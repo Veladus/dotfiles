@@ -5,6 +5,7 @@ function flatpak_install () {
 	fi
 }
 
+flatpak_install com.nextcloud
 flatpak_install com.slack.Slack
 flatpak_install org.keepassxc.KeePassXC
 flatpak_install org.telegram.desktop
