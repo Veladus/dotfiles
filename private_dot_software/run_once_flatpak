@@ -2,10 +2,13 @@
 function flatpak_install () {
 	if [ $# -eq 1 ]; then
 		flatpak install flathub $1 -y --or-update
+	else
+		echo "WRONG USAGE OF FUNCTION"
 	fi
 }
 
 flatpak_install com.nextcloud
 flatpak_install com.slack.Slack
+flatpak_install com.vscodium.codium
 flatpak_install org.keepassxc.KeePassXC
 flatpak_install org.telegram.desktop
