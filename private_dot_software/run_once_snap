@@ -1,0 +1,10 @@
+#!/bin/bash
+[ "$UID" -eq 0 ] || exec sudo "$0" "$@" # Elevate to root
+
+function snap_install () {
+	if [ $# -eq 1 ]; then
+		snap install #1
+	fi
+}
+
+snap install chezmoi
