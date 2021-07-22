@@ -7,6 +7,7 @@ function flatpak_install () {
 	fi
 }
 
+flatpak_install com.discordapp.Discord
 flatpak_install com.nextcloud
 flatpak_install com.slack.Slack
 flatpak_install com.vscodium.codium
