@@ -10,6 +10,3 @@ function snap_install () {
 		echo "WRONG USAGE OF COMMAND"
 	fi
 }
-
-snap_install chezmoi --classic
-snap_install rustup --classic
