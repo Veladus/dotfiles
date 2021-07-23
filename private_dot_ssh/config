@@ -1,0 +1,78 @@
+Host hpi-jump
+	HostName 141.89.225.148
+	User niko.hastrich
+
+Host summon
+    HostName summon.delab.i.hpi.de
+    User niko.hastrich
+    ProxyJump  hpi-jump
+Host score-node-23
+	Hostname node-23.delab.i.hpi.de
+    User niko.hastrich
+    ProxyJump summon
+Host score-node-27
+	Hostname node-27.delab.i.hpi.de
+    User niko.hastrich
+    ProxyJump summon
+Host score-node-28
+	Hostname node-28.delab.i.hpi.de
+    User niko.hastrich
+    ProxyJump summon
+
+
+Host fenrir
+	HostName fenrir.fbsub.hpi.de
+	User nihast
+	ProxyJump  hpi-jump
+Host fenrirTun
+	HostName fenrir.fbsub.hpi.de
+	User nihast
+	ProxyJump  hpi-jump
+	LocalForward 27017 localhost:27017
+	LocalForward 8080 localhost:8080
+	LocalForward 8081 localhost:8081
+Host fenrirTmux
+	HostName fenrir.fbsub.hpi.de
+	User nihast
+	ProxyJump  hpi-jump
+	RequestTTY yes
+	RemoteCommand tmux attach || tmux
+
+Host alice
+	HostName 172.20.9.5
+	User nhastrich
+	ProxyJump  hpi-jump
+Host aliceTmux
+	HostName 172.20.9.5
+	User nhastrich
+	ProxyJump  hpi-jump
+	RequestTTY yes
+	RemoteCommand tmux attach || tmux
+Host aliceTun
+	HostName 172.20.9.5
+	User nhastrich
+	ProxyJump  hpi-jump
+
+Host bob
+	HostName 172.20.9.6
+	User nhastrich
+	ProxyJump  hpi-jump
+Host bobTmux
+	HostName 172.20.9.6
+	User nhastrich
+	ProxyJump  hpi-jump
+	RequestTTY yes
+	RemoteCommand tmux attach || tmux
+
+
+Host docs
+	HostName 172.20.9.8
+	User nhastrich
+	ProxyJump  hpi-jump
+Host docsTmux
+	HostName 172.20.9.8
+	User nhastrich
+	ProxyJump  hpi-jump
+	RequestTTY yes
+	RemoteCommand tmux attach || tmux
+
