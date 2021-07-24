@@ -29,12 +29,12 @@
 	chezmoi
 	discord
 	htop
+	ipe
 	keepassxc
 	rustup
 	slack
 	sshpass
 	tdesktop
-	(texlive.combine { inherit (texlive) scheme-medium xpatch framed enumitem mathabx; })
 	thunderbird
 	vscode
       ];
