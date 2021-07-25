@@ -3,7 +3,8 @@
 }:
 
 let
-  customRC = builtins.readFile ./init.vim;
+  customRC = ./init.vim;
+
   tex-conceal = pkgs.vimUtils.buildVimPlugin {
     name = "vim-tex-conceal";
     src = pkgs.fetchFromGitHub {
@@ -13,9 +14,12 @@ let
       sha256 = "1gcf2afx0h9z4n6hhw625bzzll7m7knydc2qcm728nvn9d1ch3wn";
     };
   };
+
 in pkgs.neovim.override {
+
   configure = {
-    inherit customRC;
+    customRC = "source ${customRC}";
+
     packages.myVimPackage = with pkgs.vimPlugins; {
       start = [
         ale
@@ -26,6 +30,10 @@ in pkgs.neovim.override {
         vim-nix
         vim-tmux-navigator
         vimtex
+      ];
+
+      opt = [
+        deoplete-clang
       ];
     };
   };
