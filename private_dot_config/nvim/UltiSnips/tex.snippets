@@ -1,0 +1,84 @@
+global !p
+def math():
+	return vim.eval('vimtex#syntax#in_mathzone()') == '1'
+endglobal
+
+snippet beg "begin{} / end {}" bA
+\begin{$1}
+	$0
+\end{$1}
+endsnippet
+
+snippet fig "Figure environment" b
+\begin{figure}`!p snip.rv='[' if t[2] else ""`${2:htpb}`!p snip.rv=']' if t[2] else ""`
+  \centering
+  \includegraphics[width=${3:0.8}\linewidth]{${4:name.ext}}
+  \caption{$0}%
+  \label{fig:$5}
+\end{figure}
+endsnippet
+
+snippet im "inline math" wA
+\($0\)
+endsnippet
+
+snippet dm "display math" wA
+\[
+$0
+.\]
+endsnippet
+
+
+snippet . "expand dot to newline" iA
+.
+$0
+endsnippet
+
+#Common latex things
+context "math()"
+snippet ll "\ell" iA
+\ell
+endsnippet
+
+context "math()"
+snippet : "colon" iA
+\colon
+endsnippet
+
+context "math()"
+snippet \colon= "coloneqq" iA
+\coloneqq
+endsnippet
+
+context "math()"
+snippet eps "good epsilon" wA
+\varepsilon
+endsnippet
+
+#BA things
+snippet kNN "" wA
+\(k\)NN$0
+endsnippet
+
+snippet kthNN "" wA
+\(k\)th-NN$0
+endsnippet
+
+snippet R* "" wA
+\(\text{R}^*\)$0
+endsnippet
+
+
+# workarounds for common abreviations
+snippet wrt "with respect to" w
+w.r.t.\\ $0
+endsnippet
+snippet wlog "without loss of generality" w
+w.l.o.g.\\ $0
+endsnippet
+snippet st "such that" w
+s.t.\\ $0
+endsnippet
+snippet ie "id est" w
+i.e.\\ $0
+endsnippet

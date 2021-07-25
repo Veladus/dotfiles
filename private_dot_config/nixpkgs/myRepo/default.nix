@@ -8,21 +8,7 @@ let
       export MANPATH=$HOME/.nix-profile/share/man:/nix/var/nix/profiles/default/share/man:$PATH
     '';
 
-    myNeovim = pkgs.neovim.override {
-      configure = {
-        packages.myVimPackage = with pkgs.vimPlugins; {
-          start = [
-            ale
-            delimitMate
-            ultisnips
-            vim-fugitive
-            vim-nix
-            vim-tmux-navigator
-            vimtex
-          ];
-        };
-      };
-    };
+    myNeovim = import ./neovim {};
 in {
     setupEnv = (pkgs.runCommand "profile" {} ''
           mkdir -p $out/etc/profile.d
