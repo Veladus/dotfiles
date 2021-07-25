@@ -1,0 +1,2 @@
+#!/bin/bash
+nix-env -if ~/.config/nixpkgs/myRepo/envWithAll.nix
