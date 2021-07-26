@@ -23,10 +23,12 @@ in {
         htop
         ipe
         keepassxc
+        nix-index
         rustup
         slack
         sshpass
         tdesktop
         thunderbird
+        tree
         vscode;
 }
