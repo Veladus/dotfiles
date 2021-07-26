@@ -22,6 +22,9 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 
 " ================ Pugin Configuration ==============
+" deoplete
+let g:deoplete#enable_at_startup = 1
+
 " vimtex
 let g:tex_flavor = 'latex'
 let g:vimtex_view_general_viewer = 'okular'
