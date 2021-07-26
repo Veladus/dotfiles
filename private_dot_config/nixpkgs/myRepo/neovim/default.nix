@@ -5,7 +5,7 @@
 let
   customRC = ./init.vim;
 
-  libClang = pkgs.libclang.lib;
+  libClang = pkgs.llvmPackages_12.libclang.lib;
 
   cppStdLibProvider = pkgs.gcc-unwrapped;
   cppStdLib = pkgs.runCommandNoCC "cppStdLib-headers" {} ''
