@@ -28,6 +28,7 @@ in {
         slack
         sshpass
         tdesktop
+        tealdeer
         thunderbird
         tree
         vscode;
