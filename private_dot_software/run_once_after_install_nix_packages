@@ -1,0 +1,3 @@
+#!/bin/bash
+# Derivation store hash {{ include "~/.config/nixpkgs/myRepo/.currentDrv" | sha256sum }}
+nix-env -if ~/.config/nixpkgs/myRepo/envWithAll.nix

@@ -1,0 +1,2 @@
+#!/bin/bash
+nix-instantiate ~/.config/nixpkgs/myRepo/envWithAll.nix 2>/dev/null >~/.config/nixpkgs/myRepo/.currentDrv
