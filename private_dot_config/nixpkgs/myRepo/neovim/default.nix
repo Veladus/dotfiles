@@ -5,6 +5,7 @@
 let
   customRC = ./init.vim;
 
+  # CPP completion
   libClang = pkgs.llvmPackages_12.libclang.lib;
 
   cppStdLibProvider = pkgs.gcc-unwrapped;
@@ -15,7 +16,13 @@ let
     ${pkgs.xorg.lndir}/bin/lndir -silent ${cppStdLibProvider}/include/c++/${cppStdLibProvider.version}/ $INCLUDE_DIR
     ${pkgs.xorg.lndir}/bin/lndir -silent ${cppStdLibProvider}/include/c++/${cppStdLibProvider.version}/x86_64-unknown-linux-gnu/ $INCLUDE_DIR
     '';
+  # Python completion
+  innerPyton = pkgs.python3.withPackages (pypacks: with pypacks; [
+    pynvim
+    jedi
+  ]);
 
+  # Tex concealing
   tex-conceal = pkgs.vimUtils.buildVimPlugin {
     name = "vim-tex-conceal";
     src = pkgs.fetchFromGitHub {
@@ -26,6 +33,7 @@ let
     };
   };
 
+
 in pkgs.neovim.override {
   configure = {
     customRC = ''
@@ -34,6 +42,9 @@ in pkgs.neovim.override {
       " Set libclang paths for deoplete
       let g:deoplete#sources#clang#clang_header="${cppStdLib}"
       let g:deoplete#sources#clang#libclang_path="${libClang}/lib/libclang.so"
+
+      " Set python path for deoplete jedi
+      let g:python3_host_prog = "${innerPyton}/bin/python"
     '';
 
     packages.myVimPackage = with pkgs.vimPlugins; {
@@ -51,6 +62,7 @@ in pkgs.neovim.override {
 
       opt = [
         deoplete-clang
+        deoplete-jedi
       ];
     };
   };

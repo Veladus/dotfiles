@@ -13,6 +13,7 @@ autocmd Filetype tex set textwidth=80 fo+=t
 autocmd FileType tex setlocal spell spelllang=en_us
 
 autocmd FileType cpp packadd deoplete-clang
+autocmd FileType python packadd deoplete-jedi
 
 
 " ================ Spellchecking ====================

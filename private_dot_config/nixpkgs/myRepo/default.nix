@@ -14,7 +14,8 @@ in {
           cp ${myProfile} $out/etc/profile.d/00-my-profile.sh
     '');
 
-    inherit myNeovim;
+    inherit
+      myNeovim;
 
     inherit (pkgs) 
         chezmoi
