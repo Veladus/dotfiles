@@ -23,6 +23,7 @@ in {
         ipe
         keepassxc
         nix-index
+        ripgrep
         rustup
         slack
         sshpass
