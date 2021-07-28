@@ -8,3 +8,4 @@ function flatpak_install () {
 }
 
 flatpak_install com.nextcloud
+flatpak_install us.zoom.Zoom
