@@ -1,31 +1,47 @@
 {
-  pkgs ? import <nixpkgs> {}
+  fetchFromGitHub,
+  runCommandLocal,
+  symlinkJoin,
+
+  gcc-unwrapped,
+  libclang,
+  neovim,
+  python3,
+  vimUtils,
+  vimPlugins,
 }:
 
 let
   customRC = ./init.vim;
 
   # CPP completion
-  libClang = pkgs.llvmPackages_12.libclang.lib;
+  clangLibraryProvider = libclang.lib;
 
-  cppStdLibProvider = pkgs.gcc-unwrapped;
-  cppStdLib = pkgs.runCommandNoCC "cppStdLib-headers" {} ''
-    INCLUDE_DIR=$out/${cppStdLibProvider.version}/include
+  cppStdLibProvider = gcc-unwrapped;
+  cppStdLibUnwrapped = symlinkJoin {
+    name = "cppStdLib-headers-unwrapped";
+    paths = [
+      "${cppStdLibProvider}/include/c++/${cppStdLibProvider.version}/"
+      "${cppStdLibProvider}/include/c++/${cppStdLibProvider.version}/x86_64-unknown-linux-gnu/"
+    ];
+  };
+  cppStdLib = runCommandLocal "cppStdLib-headers" {} ''
+    OUTER=$out/${cppStdLibProvider.version}
 
-    mkdir -p $INCLUDE_DIR
-    ${pkgs.xorg.lndir}/bin/lndir -silent ${cppStdLibProvider}/include/c++/${cppStdLibProvider.version}/ $INCLUDE_DIR
-    ${pkgs.xorg.lndir}/bin/lndir -silent ${cppStdLibProvider}/include/c++/${cppStdLibProvider.version}/x86_64-unknown-linux-gnu/ $INCLUDE_DIR
+    mkdir -p $OUTER
+    ln -s ${cppStdLibUnwrapped} $OUTER/include
     '';
+
   # Python completion
-  innerPyton = pkgs.python3.withPackages (pypacks: with pypacks; [
+  innerPyton = python3.withPackages (pypacks: with pypacks; [
     pynvim
     jedi
   ]);
 
   # Tex concealing
-  tex-conceal = pkgs.vimUtils.buildVimPlugin {
+  tex-conceal = vimUtils.buildVimPlugin {
     name = "vim-tex-conceal";
-    src = pkgs.fetchFromGitHub {
+    src = fetchFromGitHub {
       owner = "KeitaNakamura";
       repo = "tex-conceal.vim";
       rev = "822712d80b4ad5bc5c241ab0a778ede812ec501f";
@@ -34,20 +50,20 @@ let
   };
 
 
-in pkgs.neovim.override {
+in neovim.override {
   configure = {
     customRC = ''
       source ${customRC}
 
       " Set libclang paths for deoplete
       let g:deoplete#sources#clang#clang_header="${cppStdLib}"
-      let g:deoplete#sources#clang#libclang_path="${libClang}/lib/libclang.so"
+      let g:deoplete#sources#clang#libclang_path="${clangLibraryProvider}/lib/libclang.so"
 
       " Set python path for deoplete jedi
       let g:python3_host_prog = "${innerPyton}/bin/python"
     '';
 
-    packages.myVimPackage = with pkgs.vimPlugins; {
+    packages.myVimPackage = with vimPlugins; {
       start = [
         ale
         delimitMate
