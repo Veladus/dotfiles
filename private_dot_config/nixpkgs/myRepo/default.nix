@@ -10,6 +10,8 @@ let
     myNeovim = pkgs.callPackage ./neovim {
       libclang = pkgs.llvmPackages_12.libclang;
     };
+
+    myCf-tool = pkgs.callPackage ./cf-tool.nix {};
 in {
     setupEnv = (pkgs.runCommand "profile" {} ''
           mkdir -p $out/etc/profile.d
@@ -17,6 +19,7 @@ in {
     '');
 
     inherit
+      myCf-tool
       myNeovim;
 
     inherit (pkgs) 

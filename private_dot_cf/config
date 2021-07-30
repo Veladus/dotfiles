@@ -1,0 +1,37 @@
+{
+  "template": [
+    {
+      "alias": "cpp",
+      "lang": "54",
+      "path": "/home/niko/Documents/CompProg/cf/templates/main.cpp",
+      "suffix": [
+        "cpp"
+      ],
+      "before_script": "g++ $%full%$ -o $%file%$.exe -std=c++17 -g",
+      "script": "./$%file%$.exe",
+      "after_script": "rm $%file%$.exe"
+    },
+    {
+      "alias": "py",
+      "lang": "41",
+      "path": "/home/niko/Documents/CompProg/cf/templates/main.py",
+      "suffix": [
+        "py"
+      ],
+      "before_script": "",
+      "script": "python3 $%full%$",
+      "after_script": ""
+    }
+  ],
+  "default": 0,
+  "gen_after_parse": false,
+  "host": "https://codeforces.com",
+  "proxy": "",
+  "folder_name": {
+    "acmsguru": "acmsguru",
+    "contest": "contest",
+    "group": "group",
+    "gym": "gym",
+    "root": "cf"
+  }
+}
