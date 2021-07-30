@@ -7,7 +7,9 @@ let
       export MANPATH=":"
     '';
 
-    myNeovim = import ./neovim {};
+    myNeovim = pkgs.callPackage ./neovim {
+      libclang = pkgs.llvmPackages_12.libclang;
+    };
 in {
     setupEnv = (pkgs.runCommand "profile" {} ''
           mkdir -p $out/etc/profile.d
