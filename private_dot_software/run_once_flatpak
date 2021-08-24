@@ -8,4 +8,5 @@ function flatpak_install () {
 }
 
 flatpak_install com.nextcloud
+flatpak_install com.valvesoftware.Steam
 flatpak_install us.zoom.Zoom
