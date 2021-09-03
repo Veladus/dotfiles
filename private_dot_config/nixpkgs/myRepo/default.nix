@@ -29,6 +29,7 @@ in {
         ipe
         keepassxc
         nix-index
+        okular
         ripgrep
         rustup
         slack
