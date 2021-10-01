@@ -22,6 +22,9 @@ in {
       myCf-tool
       myNeovim;
 
+    inherit (pkgs.jetbrains) 
+      clion;
+
     inherit (pkgs) 
         chezmoi
         discord
@@ -38,5 +41,6 @@ in {
         tealdeer
         thunderbird
         tree
-        vscode;
+        vscode
+        xournalpp;
 }
