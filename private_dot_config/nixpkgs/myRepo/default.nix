@@ -35,6 +35,7 @@ in {
         okular
         ripgrep
         rustup
+        sage
         slack
         sshpass
         tdesktop
