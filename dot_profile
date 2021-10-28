@@ -21,11 +21,4 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-export XDG_DATA_DIRS=$HOME/.nix-profile/share:$HOME/.share:"${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}"
-if [ -d $HOME/.nix-profile/etc/profile.d ]; then
-  for i in $(find $HOME/.nix-profile/etc/profile.d/ -name '*.sh' | sort); do
-    if [ -r $i ]; then
-      . $i
-    fi
-  done
-fi
+. "$HOME/.shellrc"
