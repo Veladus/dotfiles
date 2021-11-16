@@ -28,6 +28,7 @@ in {
     inherit (pkgs) 
         chezmoi
         discord
+        entr
         htop
         ipe
         keepassxc
