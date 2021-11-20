@@ -63,10 +63,10 @@ au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:U
 let g:ale_fixers = {'cpp' : ['clangtidy', 'trim_whitespace']}
 
 let g:ale_linters = {'c': ['clang'], 'cpp': ['gcc', 'clangd', 'clangtidy']}
-let g:ale_cpp_clangd_options = '-std=c++17 -Wall -Wpedantic -Wextra'
-let g:ale_cpp_clangtidy_extra_options = '-std=c++17'
+let g:ale_cpp_clangd_options = '-std=c++20 -Wall -Wpedantic -Wextra'
+let g:ale_cpp_clangtidy_extra_options = '-std=c++20'
 let g:ale_cpp_clangtidy_checks = ['clang-analyzer-*', 'bugprone-*', 'cppcoreguidelines-*', 'performance-*']
-let g:ale_cpp_cc_options = '-std=c++17 -Wall -Wpedantic -Wextra'
+let g:ale_cpp_cc_options = '-std=c++20 -Wall -Wpedantic -Wextra'
 
 " Exands or completes the selected snippet/item in the popup menu "
 imap <expr><silent><CR>
