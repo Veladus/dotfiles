@@ -9,6 +9,25 @@ snippet beg "begin{} / end {}" bA
 \end{$1}
 endsnippet
 
+# Common environments
+snippet enum "enumerate" b
+\begin{enumerate}
+	\item $0
+\end{enumerate}
+endsnippet
+
+snippet enumroman "enumerate with roman numeral" bA
+\begin{enumerate}[label=\roman*)]
+	\item $0
+\end{enumerate}
+endsnippet
+
+snippet enumalph "enumerate with alphabet" bA
+\begin{enumerate}[label=\alph*)]
+	\item $0
+\end{enumerate}
+endsnippet
+
 snippet fig "Figure environment" b
 \begin{figure}`!p snip.rv='[' if t[2] else ""`${2:htpb}`!p snip.rv=']' if t[2] else ""`
   \centering
@@ -17,6 +36,8 @@ snippet fig "Figure environment" b
   \label{fig:$5}
 \end{figure}
 endsnippet
+
+# Math stuff
 
 snippet im "inline math" wA
 \($0\)
@@ -54,20 +75,6 @@ context "math()"
 snippet eps "good epsilon" wA
 \varepsilon
 endsnippet
-
-#BA things
-snippet kNN "" wA
-\(k\)NN$0
-endsnippet
-
-snippet kthNN "" wA
-\(k\)th-NN$0
-endsnippet
-
-snippet R* "" wA
-\(\text{R}^*\)$0
-endsnippet
-
 
 # workarounds for common abreviations
 snippet wrt "with respect to" w
