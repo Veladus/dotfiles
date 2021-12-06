@@ -39,25 +39,13 @@ let g:tex_conceal='abdmgs'
 
 " ultisnips
 let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpForwardTrigger = '<s-tab>'
+" shortcut to go to next position
+let g:UltiSnipsJumpForwardTrigger='<c-j>'
+" shortcut to go to previous position
+let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 
-function! g:UltiSnips_Complete()
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res == 0
-		call UltiSnips#JumpForwards()
-		if g:ulti_jump_forwards_res == 0
-			if pumvisible()
-				return "\<C-n>"
-			else
-               return "\<TAB>"
-            endif
-        endif
-    endif
-    return ""
-endfunction
-
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+" Compatibility between deoplete and ultisnips
+au BufEnter * exec "imap <expr><TAB> pumvisible() ? \"\\<C-n>\" : \"\\<TAB>\""
 
 "  ale
 let g:ale_fixers = {'cpp' : ['clangtidy', 'trim_whitespace']}
