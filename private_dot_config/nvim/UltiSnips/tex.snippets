@@ -1,3 +1,4 @@
+# Refer to https://castel.dev/post/lecture-notes-1/ for questions
 global !p
 def math():
 	return vim.eval('vimtex#syntax#in_mathzone()') == '1'
@@ -65,11 +66,11 @@ snippet cb "^3" iA
 endsnippet
 
 context "math()"
-snippet Sub "_{ }" iA
+snippet sl "_{ }" iA
 _{$1}$2
 endsnippet
 context "math()"
-snippet Sup "^{ }" iA
+snippet su "^{ }" iA
 ^{$1}$2
 endsnippet
 
@@ -81,8 +82,67 @@ snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
 `!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
 endsnippet
 
+# Highlights
+priority 10
+context "math()"
+snippet "bar" "bar" riA
+\overline{$1}$0
+endsnippet
 
-#Common latex things
+priority 100
+context "math()"
+snippet "([a-zA-Z])bar" "bar" riA
+\overline{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+context "math()"
+snippet "til" "til" riA
+\tilde{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])til" "til" riA
+\tilde{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+context "math()"
+snippet "hat" "hat" riA
+\hat{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])hat" "hat" riA
+\hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+context "math()"
+snippet "bm" "bm" riA
+\boldsymbol{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])bm" "bm" riA
+\boldsymbol{`!p snip.rv=match.group(1)`}
+endsnippet
+
+# Fractions
+context "math()"
+snippet // "Fraction" iA
+\\frac{$1}{$2}$0
+endsnippet
+
+context "math()"
+snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Fraction" wrA
+\\frac{`!p snip.rv = match.group(1)`}{$1}$0
+endsnippet
+
+# Common latex things
 context "math()"
 snippet ll "\ell" iA
 \ell
@@ -103,7 +163,7 @@ snippet eps "good epsilon" wA
 \varepsilon
 endsnippet
 
-#misc
+# misc
 snippet . "expand dot to newline" iA
 .
 $0
