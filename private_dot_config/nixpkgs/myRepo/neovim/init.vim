@@ -31,7 +31,19 @@ let g:tex_flavor = 'latex'
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
-let g:vimtex_quickfix_enabled = 0
+let g:vimtex_quickfix_enabled=1
+let g:vimtex_quickfix_mode=2
+let g:vimtex_quickfix_autoclose_after_keystrokes=1
+
+let g:vimtex_log_ignore = [
+        \ 'Underfull',
+        \ 'Overfull',
+        \ 'specifier changed to',
+        \ 'Token not allowed in a PDF string',
+        \ 'headheight is too small',
+      \ ]
+let g:vimtex_quickfix_ignore_filters = g:vimtex_log_ignore
+let g:vimtex_log_verbose = "1"
 
 set conceallevel=2
 let g:tex_conceal='abdmgs'

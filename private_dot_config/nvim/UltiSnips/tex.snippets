@@ -70,7 +70,7 @@ snippet sl "_{ }" iA
 _{$1}$2
 endsnippet
 context "math()"
-snippet su "^{ }" iA
+snippet sh "^{ }" iA
 ^{$1}$2
 endsnippet
 
@@ -83,6 +83,30 @@ snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
 endsnippet
 
 # Highlights
+priority 10
+context "math()"
+snippet "frak" "frak" riA
+\mathfrak{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])frak" "frak" riA
+\mathfrak{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+context "math()"
+snippet "cal" "cal" riA
+\mathcal{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])cal" "cal" riA
+\mathcal{`!p snip.rv=match.group(1)`}
+endsnippet
+
 priority 10
 context "math()"
 snippet "bar" "bar" riA
