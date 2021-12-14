@@ -28,6 +28,7 @@ in {
     inherit (pkgs) 
         chezmoi
         discord
+        elan
         entr
         htop
         ipe
