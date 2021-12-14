@@ -41,6 +41,7 @@ let g:vimtex_log_ignore = [
         \ 'specifier changed to',
         \ 'Token not allowed in a PDF string',
         \ 'headheight is too small',
+        \ 'mdframed Warning',
       \ ]
 let g:vimtex_quickfix_ignore_filters = g:vimtex_log_ignore
 let g:vimtex_log_verbose = "1"

@@ -66,12 +66,17 @@ snippet cb "^3" iA
 endsnippet
 
 context "math()"
+snippet trans "transpose" iA
+^T
+endsnippet
+
+context "math()"
 snippet sl "_{ }" iA
-_{$1}$2
+_{$1}$0
 endsnippet
 context "math()"
 snippet sh "^{ }" iA
-^{$1}$2
+^{$1}$0
 endsnippet
 
 snippet '([A-Za-z])(\d)' "auto subscript" wrA
