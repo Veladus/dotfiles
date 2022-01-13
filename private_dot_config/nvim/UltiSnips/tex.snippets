@@ -17,6 +17,13 @@ snippet enum "enumerate" b
 \end{enumerate}
 endsnippet
 
+snippet enumeq "enumerate equivalence" bA
+\begin{enumerate}
+	\item[\(\Rightarrow\)] $0
+	\item[\(\Leftarrow\)]
+\end{enumerate}
+endsnippet
+
 snippet enumroman "enumerate with roman numeral" bA
 \begin{enumerate}[label=\roman*)]
 	\item $0
@@ -56,6 +63,28 @@ endsnippet
 
 # sub- and supscripts
 context "math()"
+snippet HS "^{ }" iA
+^{$1}$0
+endsnippet
+context "math()"
+snippet LS "_{ }" iA
+_{$1}$0
+endsnippet
+
+context "math()"
+snippet Ht "transpose" iA
+^T
+endsnippet
+context "math()"
+snippet Hs "^*" iA
+^*
+endsnippet
+context "math()"
+snippet 'H(\d)' "num superscript" irA
+^`!p snip.rv = match.group(1)`
+endsnippet
+
+context "math()"
 snippet sq "^2" iA
 ^2
 endsnippet
@@ -63,20 +92,6 @@ endsnippet
 context "math()"
 snippet cb "^3" iA
 ^3
-endsnippet
-
-context "math()"
-snippet trans "transpose" iA
-^T
-endsnippet
-
-context "math()"
-snippet sl "_{ }" iA
-_{$1}$0
-endsnippet
-context "math()"
-snippet sh "^{ }" iA
-^{$1}$0
 endsnippet
 
 snippet '([A-Za-z])(\d)' "auto subscript" wrA
@@ -197,6 +212,7 @@ snippet . "expand dot to newline" iA
 .
 $0
 endsnippet
+
 # workarounds for common abreviations
 snippet wrt "with respect to" w
 w.r.t.\\ $0
