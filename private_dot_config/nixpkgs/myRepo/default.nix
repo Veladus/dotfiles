@@ -38,6 +38,7 @@ in {
         ripgrep
         rustup
         sage
+        signal-desktop
         slack
         sshpass
         tdesktop
