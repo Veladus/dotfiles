@@ -6,19 +6,12 @@ Host summon
     HostName summon.delab.i.hpi.de
     User niko.hastrich
     ProxyJump  hpi-jump
-Host score-node-23
-	Hostname node-23.delab.i.hpi.de
+	RequestTTY yes
+	RemoteCommand tmux attach || tmux
+Host summon-shell
+    HostName summon.delab.i.hpi.de
     User niko.hastrich
-    ProxyJump summon
-Host score-node-27
-	Hostname node-27.delab.i.hpi.de
-    User niko.hastrich
-    ProxyJump summon
-Host score-node-28
-	Hostname node-28.delab.i.hpi.de
-    User niko.hastrich
-    ProxyJump summon
-
+    ProxyJump  hpi-jump
 
 Host fenrir
 	HostName fenrir.fbsub.hpi.de
