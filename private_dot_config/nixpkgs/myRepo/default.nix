@@ -35,6 +35,7 @@ in {
         keepassxc
         nix-index
         okular
+        mathlibtools
         ripgrep
         rustup
         signal-desktop
