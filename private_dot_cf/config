@@ -2,12 +2,12 @@
   "template": [
     {
       "alias": "cpp",
-      "lang": "54",
+      "lang": "73",
       "path": "/home/niko/Documents/CompProg/cf/templates/main.cpp",
       "suffix": [
         "cpp"
       ],
-      "before_script": "g++ $%full%$ -o $%file%$.exe -std=c++17 -g",
+      "before_script": "g++ $%full%$ -o $%file%$.exe -std=c++20 -g",
       "script": "./$%file%$.exe",
       "after_script": "rm $%file%$.exe"
     },
