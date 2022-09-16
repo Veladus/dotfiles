@@ -68,6 +68,7 @@ in neovim.override {
         ale
         delimitMate
         deoplete-nvim
+        markdown-preview-nvim
         tex-conceal
         ultisnips
         vim-fugitive

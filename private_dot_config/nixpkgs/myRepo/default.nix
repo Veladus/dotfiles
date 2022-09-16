@@ -33,9 +33,10 @@ in {
         htop
         ipe
         keepassxc
+        mathlibtools
         nix-index
         okular
-        mathlibtools
+        rWrapper
         ripgrep
         rustup
         signal-desktop
