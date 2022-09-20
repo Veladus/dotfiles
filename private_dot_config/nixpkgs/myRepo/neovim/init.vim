@@ -19,6 +19,7 @@ autocmd FileType python packadd deoplete-jedi
 " ================ Spellchecking ====================
 nmap <leader>SE :set spell spelllang=en_us<cr>
 nmap <leader>SD :set spell spelllang=de_20<cr>
+nmap <leader>G :Neogit<cr>
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 
