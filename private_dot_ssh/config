@@ -1,3 +1,10 @@
+Host hetzner
+    HostName gateway.veladus.dev
+    User root
+	RequestTTY yes
+	RemoteCommand tmux attach || tmux
+
+# HPI
 Host hpi-jump
 	HostName 141.89.225.148
 	User niko.hastrich
