@@ -1,6 +1,8 @@
 autocmd!
 
-colorscheme leafroad
+" =============== Color scheme ======================
+autocmd BufEnter * colorscheme koehler
+autocmd BufEnter *.tex colorscheme leafroad
 
 " Line numbering "
 set number relativenumber
