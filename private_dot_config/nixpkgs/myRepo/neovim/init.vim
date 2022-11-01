@@ -54,14 +54,14 @@ let g:tex_conceal='abdmgs'
 
 
 " ultisnips
-let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsExpandTrigger = '<c-e>'
 " shortcut to go to next position
 let g:UltiSnipsJumpForwardTrigger='<c-j>'
 " shortcut to go to previous position
 let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 
 " Compatibility between deoplete and ultisnips
-au BufEnter * exec "imap <expr><TAB> pumvisible() ? \"\\<C-n>\" : \"\\<TAB>\""
+" au BufEnter * exec "imap <expr><TAB> pumvisible() ? \"\\<C-n>\" : \"\\<TAB>\""
 
 "  ale
 let g:ale_fixers = {'cpp' : ['clangtidy', 'trim_whitespace']}
