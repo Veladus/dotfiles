@@ -12,6 +12,14 @@ let
     };
 
     myCf-tool = pkgs.callPackage ./cf-tool.nix {};
+
+#    myTexlive = (pkgs.texlive.combine {
+#      inherit (pkgs.texlive)
+#        scheme-context;
+#    });
+    myTexlive = pkgs.texlive.combined.scheme-context;
+
+    myIpe = (pkgs.ipe.override { texlive = myTexlive; });
 in {
     setupEnv = (pkgs.runCommand "profile" {} ''
           mkdir -p $out/etc/profile.d
@@ -20,18 +28,19 @@ in {
 
     inherit
       myCf-tool
-      myNeovim;
+      myNeovim
+      myIpe;
 
     inherit (pkgs.jetbrains) 
       clion;
 
     inherit (pkgs) 
         chezmoi
+        dejavu_fonts
         discord
         elan
         entr
         htop
-        ipe
         keepassxc
         mathlibtools
         nix-index
