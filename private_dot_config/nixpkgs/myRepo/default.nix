@@ -36,6 +36,7 @@ in {
 
     inherit (pkgs) 
         chezmoi
+        cmake
         dejavu_fonts
         discord
         elan
