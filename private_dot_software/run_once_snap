@@ -10,3 +10,5 @@ function snap_install () {
 		echo "WRONG USAGE OF COMMAND"
 	fi
 }
+
+snap_install spotify
