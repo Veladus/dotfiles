@@ -5,6 +5,7 @@
 let
     myProfile = pkgs.writeText "my-profile" ''
       export MANPATH=":"
+      export PATH="$PATH:$HOME/.cargo/bin"
     '';
 
     myNeovim = pkgs.callPackage ./neovim {
