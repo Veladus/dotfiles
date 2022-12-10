@@ -47,6 +47,7 @@ in {
         mathlibtools
         nix-index
         okular
+        pkg-config
         rWrapper
         ripgrep
         rustup
