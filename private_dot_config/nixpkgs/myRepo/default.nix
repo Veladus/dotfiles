@@ -44,6 +44,7 @@ in {
         entr
         fd
         htop
+        jq
         keepassxc
         nix-index
         okular
