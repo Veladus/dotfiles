@@ -42,13 +42,12 @@ in {
         discord
         elan
         entr
+        fd
         htop
         keepassxc
-        mathlibtools
         nix-index
         okular
         pkg-config
-        rWrapper
         ripgrep
         rustup
         signal-desktop
