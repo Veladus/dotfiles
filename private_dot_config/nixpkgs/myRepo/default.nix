@@ -59,5 +59,6 @@ in {
         thunderbird
         tree
         vscode
+        xclip
         xournalpp;
 }
