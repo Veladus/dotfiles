@@ -16,7 +16,7 @@ super + Escape
 
 # keepassxc
 super + p
-	toggle-visibility.sh keepassxc
+	toggle-visibility.sh keepassxc KeePassXC
 
 #
 # bspwm hotkeys
