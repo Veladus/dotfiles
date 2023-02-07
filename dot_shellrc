@@ -32,9 +32,9 @@ alias vi="nvim"
 alias vim="nvim"
 
 alias dne="disown & exit"
+function stfu () { $@ >/dev/null 2>&1; }
 
 alias sudo='sudo '
-alias ssh='TERM=xterm-256color ssh'
 alias la='ls -lisa'
 alias copy='xclip -i -selection clipboard'
 alias paste='xclip -o -selection clipboard'
