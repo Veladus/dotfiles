@@ -14,11 +14,52 @@ let
 
     myCf-tool = pkgs.callPackage ./cf-tool.nix {};
 
-#    myTexlive = (pkgs.texlive.combine {
-#      inherit (pkgs.texlive)
-#        scheme-context;
-#    });
-    myTexlive = pkgs.texlive.combined.scheme-context;
+    myTexlive = (pkgs.texlive.combine {
+      inherit (pkgs.texlive)
+        adjustbox
+        algorithm2e
+        biber
+        biblatex
+        booktabs
+        caption
+        cleveref
+        collectbox
+        collection-fontsextra
+        collection-fontsrecommended
+        collection-langgerman
+        comment
+        complexity
+        csquotes
+        enumitem
+        ifoddpage
+        koma-script
+        l3kernel
+        l3packages
+        latexmk
+        mathtools
+        mdwtools
+        microtype
+        multirow
+        ncctools
+        pdflscape
+        pgf
+        pgfplots
+        relsize
+        scheme-small
+        setspace
+        siunitx
+        soul
+        thmtools
+        threeparttable
+        tkz-base
+        todonotes
+        urlbst
+        wrapfig
+        xcolor
+        xpatch
+        xstring;
+    });
+#    myTexlive = pkgs.texlive.combined.scheme-full;
 
     myIpe = (pkgs.ipe.override { texlive = myTexlive; });
 in {
@@ -29,8 +70,9 @@ in {
 
     inherit
       myCf-tool
+      myIpe
       myNeovim
-      myIpe;
+      myTexlive;
 
     inherit (pkgs.jetbrains) 
       clion;
