@@ -94,7 +94,6 @@ in {
         signal-desktop
         slack
         sshpass
-        tdesktop
         tealdeer
         thunderbird
         tree
