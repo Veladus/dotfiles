@@ -20,6 +20,7 @@ let
         algorithm2e
         biber
         biblatex
+        blindtext
         booktabs
         caption
         cleveref
@@ -30,17 +31,21 @@ let
         comment
         complexity
         csquotes
+        datetime2
         enumitem
+        forloop
         ifoddpage
         koma-script
         l3kernel
         l3packages
         latexmk
+        marginnote
         mathtools
         mdwtools
         microtype
         multirow
         ncctools
+        pdfcomment
         pdflscape
         pgf
         pgfplots
@@ -49,6 +54,8 @@ let
         setspace
         siunitx
         soul
+        soulutf8
+        soulpos
         thmtools
         threeparttable
         tkz-base
@@ -57,7 +64,8 @@ let
         wrapfig
         xcolor
         xpatch
-        xstring;
+        xstring
+        zref;
     });
 #    myTexlive = pkgs.texlive.combined.scheme-full;
 
