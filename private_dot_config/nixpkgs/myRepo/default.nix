@@ -79,7 +79,6 @@ in {
 
     inherit (pkgs) 
         chezmoi
-        cmake
         dejavu_fonts
         discord
         elan
@@ -90,7 +89,6 @@ in {
         keepassxc
         nix-index
         okular
-        pkg-config
         ripgrep
         rustup
         signal-desktop
