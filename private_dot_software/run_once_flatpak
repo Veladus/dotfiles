@@ -1,0 +1,59 @@
+#!/bin/bash
+# DSL preamble
+to_remove=()
+to_install=()
+
+function flatpak_install () {
+  if [ $# -ne 1 ]; then
+    echo "WRONG USAGE OF FUNCTION"
+  fi
+  local found=0  # Flag to track if s is found in to_remove
+
+  # Loop through to_remove list to check if s is present
+  for i in "${!to_remove[@]}"; do
+    if [[ ${to_remove[i]} = $1 ]]; then
+      unset 'to_remove[i]'
+	  to_remove=("${to_remove[@]}")
+	  found=1
+	  break
+    fi
+  done
+
+  # If s is not found in to_remove, add it to to_install list
+  if [ $found -eq 0 ]; then
+    to_install+=("$1")
+  fi
+}
+
+function init () {
+	to_remove=($(flatpak list --app --columns=ref | cut -d/ -f1))
+}
+
+function finalize () {
+  if [ ${#to_remove[@]} -ne 0 ]; then
+    echo Removing Flatpak packages ${to_remove[@]} are you sure?
+
+    read -p "Continue (y/n)? " choice
+    case "$choice" in 
+      y|Y ) flatpak remove ${to_remove[@]};;
+      * ) echo "Not removing. Please fix definition/system yourself";;
+    esac
+  fi
+
+  echo Updating all Flatpak packages
+  flatpak update
+
+  if [ ${#to_install[@]} -ne 0 ]; then
+    echo Installing Flatpak package ${to_install[@]}
+    flatpak install ${to_install[@]} -y
+  fi
+}
+
+# system definition
+init
+
+flatpak_install com.github.alainm23.planner
+flatpak_install org.gimp.GIMP
+flatpak_install us.zoom.Zoom
+
+finalize
