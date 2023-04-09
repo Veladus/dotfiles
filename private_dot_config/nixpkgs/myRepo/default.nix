@@ -89,7 +89,6 @@ in {
         chezmoi
         dejavu_fonts
         discord
-        elan
         entr
         fd
         htop
