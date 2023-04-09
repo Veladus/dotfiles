@@ -27,6 +27,7 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 alias ssh='TERM=xterm-256color ssh'
 
 # aliases
+alias e="emacsclient -nw"
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"

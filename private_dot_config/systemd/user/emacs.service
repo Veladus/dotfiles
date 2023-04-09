@@ -1,0 +1,8 @@
+[Unit]
+Description=Emacs daemon
+
+[Service]
+ExecStart=/usr/bin/emacs --daemon
+
+[Install]
+WantedBy=default.target
