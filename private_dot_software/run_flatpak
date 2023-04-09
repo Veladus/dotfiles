@@ -52,7 +52,6 @@ function finalize () {
 # system definition
 init
 
-flatpak_install com.github.alainm23.planner
 flatpak_install org.gimp.GIMP
 flatpak_install us.zoom.Zoom
 
