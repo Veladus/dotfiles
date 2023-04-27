@@ -3,6 +3,7 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+(load! "private.el")
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
@@ -41,7 +42,10 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
-
+(after! org
+  (map! :map org-mode-map
+        :n "M-j" #'org-metaup
+        :n "M-k" #'org-metadown))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -74,3 +78,25 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+(use-package! org-caldav
+  :after org
+  :init
+  ;; Actual calendar configuration
+  (private-calendar-server-config)
+  (setq
+   org-caldav-calendar-id "org"
+   org-caldav-my-base-dir (expand-file-name "cal" org-directory)
+   org-caldav-inbox (expand-file-name "inbox.org" org-caldav-my-base-dir)
+   org-caldav-files (directory-files-recursively org-caldav-my-base-dir ".*\.org"))
+
+  :init
+  (setq
+   org-icalendar-timezone "Europe/Berlin"
+   org-icalendar-include-todo 'all
+   org-icalendar-use-scheduled '(todo-start event-if-not-todo)
+   org-caldav-sync-todo t)
+
+  (map!
+   :map org-mode-map
+   :localleader
+   :n "S" #'org-caldav-sync))
