@@ -14,60 +14,61 @@ let
 
     myCf-tool = pkgs.callPackage ./cf-tool.nix {};
 
-    myTexlive = (pkgs.texlive.combine {
-      inherit (pkgs.texlive)
-        adjustbox
-        algorithm2e
-        biber
-        biblatex
-        blindtext
-        booktabs
-        caption
-        cleveref
-        collectbox
-        collection-fontsextra
-        collection-fontsrecommended
-        collection-langgerman
-        comment
-        complexity
-        csquotes
-        datetime2
-        enumitem
-        forloop
-        ifoddpage
-        koma-script
-        l3kernel
-        l3packages
-        latexmk
-        marginnote
-        mathtools
-        mdwtools
-        microtype
-        multirow
-        ncctools
-        pdfcomment
-        pdflscape
-        pgf
-        pgfplots
-        relsize
-        scheme-small
-        setspace
-        siunitx
-        soul
-        soulutf8
-        soulpos
-        thmtools
-        threeparttable
-        tkz-base
-        todonotes
-        urlbst
-        wrapfig
-        xcolor
-        xpatch
-        xstring
-        zref;
-    });
-#    myTexlive = pkgs.texlive.combined.scheme-full;
+#    myTexlive = (pkgs.texlive.combine {
+#      inherit (pkgs.texlive)
+#        adjustbox
+#        algorithm2e
+#        biber
+#        biblatex
+#        blindtext
+#        booktabs
+#        capt-of
+#        caption
+#        cleveref
+#        collectbox
+#        collection-fontsextra
+#        collection-fontsrecommended
+#        collection-langgerman
+#        comment
+#        complexity
+#        csquotes
+#        datetime2
+#        enumitem
+#        forloop
+#        ifoddpage
+#        koma-script
+#        l3kernel
+#        l3packages
+#        latexmk
+#        marginnote
+#        mathtools
+#        mdwtools
+#        microtype
+#        multirow
+#        ncctools
+#        pdfcomment
+#        pdflscape
+#        pgf
+#        pgfplots
+#        relsize
+#        scheme-medium
+#        setspace
+#        siunitx
+#        soul
+#        soulutf8
+#        soulpos
+#        thmtools
+#        threeparttable
+#        tkz-base
+#        todonotes
+#        urlbst
+#        wrapfig
+#        xcolor
+#        xpatch
+#        xstring
+#        zref;
+#    });
+    myTexlive = pkgs.texlive.combined.scheme-full;
 
     myIpe = (pkgs.ipe.override { texlive = myTexlive; });
 in {
