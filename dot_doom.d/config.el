@@ -100,3 +100,20 @@
    :map org-mode-map
    :localleader
    :n "S" #'org-caldav-sync))
+;; enable <localleader> S to sync also in org-agenda mode
+(after! (:and org-caldav org-agenda)
+  (map!
+   :map org-agenda-mode-map
+   :localleader
+   :n "S" #'org-caldav-sync))
+
+;; yas-snippet stuff
+(after! yasnippet
+  ;; Remove default TAB keybindings
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  ;; Define new keybinding
+  (map!
+   :map yas-minor-mode-map
+   :i "SPC" yas-maybe-expand
+   :i "M-w" #'yas-expand))
