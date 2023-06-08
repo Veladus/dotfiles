@@ -2,4 +2,4 @@
 # name: inline-math-mode
 # key: im
 # --
-\\($1\\) $0
+\\($1\\)$0

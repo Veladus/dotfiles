@@ -39,14 +39,6 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-(after! org
-  (map! :map org-mode-map
-        :n "M-j" #'org-metaup
-        :n "M-k" #'org-metadown))
-
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -78,6 +70,28 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;; Global packages
+(after! evil
+  (map! :i "C-S-V" #'clipboard-yank))
+
+;; Org packages
+(use-package! org
+  :init
+  (setq org-directory "~/org/")
+  :config
+  (map! :map org-mode-map
+        :n "M-j" #'org-metadown
+        :n "M-k" #'org-metaup)
+  (setq org-return-follows-link t))
+
+(use-package! org-roam
+  :init
+  (setq org-roam-directory (expand-file-name "roam" org-directory))
+  :config
+  (org-roam-db-autosync-mode)
+  (org-roam-update-org-id-locations))
+
 (use-package! org-caldav
   :after org
   :init
@@ -89,13 +103,13 @@
    org-caldav-inbox (expand-file-name "inbox.org" org-caldav-my-base-dir)
    org-caldav-files (directory-files-recursively org-caldav-my-base-dir ".*\.org"))
 
-  :init
   (setq
    org-icalendar-timezone "Europe/Berlin"
    org-icalendar-include-todo 'all
    org-icalendar-use-scheduled '(todo-start event-if-not-todo)
    org-caldav-sync-todo t)
 
+  :config
   (map!
    :map org-mode-map
    :localleader
@@ -107,13 +121,30 @@
    :localleader
    :n "S" #'org-caldav-sync))
 
+;; org-noter
+(use-package! org-noter
+  :after org
+  :config
+  (setq org-noter-auto-save-last-location t))
+
 ;; yas-snippet stuff
-(after! yasnippet
+(defun disable-require-final-newline ()
+  (setq require-final-newline nil))
+(use-package! yasnippet
+ :config
   ;; Remove default TAB keybindings
-  (define-key yas-minor-mode-map (kbd "<tab>") nil)
-  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  ;; (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  ;; (define-key yas-minor-mode-map (kbd "TAB") nil)
+
   ;; Define new keybinding
   (map!
    :map yas-minor-mode-map
-   :i "SPC" yas-maybe-expand
    :i "M-w" #'yas-expand))
+
+;; latex
+(use-package! latex
+  :config
+  (map!
+   :map latex-mode-map
+   :leader
+   :n "t P" #'latex-preview-pane-mode))
