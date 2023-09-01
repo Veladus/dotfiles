@@ -54,5 +54,7 @@ init
 
 flatpak_install org.gimp.GIMP
 flatpak_install us.zoom.Zoom
+flatpak_install ch.protonmail.protonmail-bridge
+flatpak_install com.protonvpn.www
 
 finalize
