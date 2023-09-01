@@ -90,6 +90,7 @@ in {
         chezmoi
         dejavu_fonts
         discord
+        emacs
         entr
         fd
         htop
