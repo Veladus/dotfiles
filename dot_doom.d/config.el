@@ -5,6 +5,15 @@
 
 (load! "private.el")
 
+(defun set-ssh-auth-to-gpg-socket ()
+  "This function sets the environment variables to use"
+  (interactive)
+  (setenv
+   "SSH_AUTH_SOCK"
+   (string-chop-newline
+     (shell-command-to-string "gpgconf --list-dirs | grep \"agent-ssh-socket\" | cut -d: -f2"))))
+
+
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Niko Hastrich"
@@ -148,3 +157,8 @@
    :map latex-mode-map
    :leader
    :n "t P" #'latex-preview-pane-mode))
+
+;; Magit
+(use-package! magit
+  :config
+  (set-ssh-auth-to-gpg-socket))
