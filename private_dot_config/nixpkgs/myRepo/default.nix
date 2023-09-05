@@ -79,7 +79,7 @@ in {
 
     inherit
       myCf-tool
-      myIpe
+      #myIpe
       myNeovim
       myTexlive;
 
