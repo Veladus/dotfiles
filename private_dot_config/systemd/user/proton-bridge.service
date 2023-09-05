@@ -1,0 +1,12 @@
+[Unit]
+Description=Protonmail Bridge
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=simple
+EnvironmentFile=/home/niko/.config/systemd/user/scale.env
+ExecStart=/usr/bin/flatpak run ch.protonmail.protonmail-bridge --no-window
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
