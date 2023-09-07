@@ -1,47 +1,54 @@
 #! /usr/bin/env bash
 
-# Configure environment variables
-export EDITOR="nvim"
-export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
-export GUROBI_HOME=/opt/gurobi1001/linux64/
-export PATH=$HOME/.local/bin:$GUROBI_HOME/bin:$PATH
-export LD_LIBRARY_PATH=$GUROBI_HOME/lib:$LD_LIBRARY_PATH
+function setup_environment () {
+	# Configure environment variables
+	export EDITOR="nvim"
+	export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+	export GUROBI_HOME=/opt/gurobi1001/linux64/
+	export PATH=$HOME/.local/bin:${GUROBI_HOME}bin:$PATH
+	export LD_LIBRARY_PATH=$GUROBI_HOME/lib:$LD_LIBRARY_PATH
 
-# fix QT apps
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
+	# fix QT apps
+	export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
-# nix stuff
-export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}:$HOME/.nix-profile/share:$HOME/.local/share"
-if [ -d $HOME/.nix-profile/etc/profile.d ]; then
-  for i in $(find $HOME/.nix-profile/etc/profile.d/ -name '*.sh' | sort); do
-    if [ -r $i ]; then
-      . $i
-    fi
-  done
+	# nix stuff
+	export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}:$HOME/.nix-profile/share:$HOME/.local/share"
+	if [ -d $HOME/.nix-profile/etc/profile.d ]; then
+	  for i in $(find $HOME/.nix-profile/etc/profile.d/ -name '*.sh' | sort); do
+		if [ -r $i ]; then
+		  . $i
+		fi
+	  done
+	fi
+
+	# enable gpg-agent
+	gpg-connect-agent updatestartuptty /bye >/dev/null
+	export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+
+
+	# compatibility
+	alias ssh='TERM=xterm-256color ssh'
+
+	# aliases
+	alias e="emacsclient -nw"
+	alias v="nvim"
+	alias vi="nvim"
+	alias vim="nvim"
+
+	alias dne="disown & exit"
+	function stfu () { $@ >/dev/null 2>&1; }
+
+	alias sudo='sudo '
+	alias la='ls -lisa'
+	alias copy='xclip -i -selection clipboard'
+	alias paste='xclip -o -selection clipboard'
+	alias sshpi="TERM=xterm-256color sshpass -p \$(nmcli con show hpi --show-secrets | awk -F: '\$1==\"802-1x.password\" { print \$2 }' | sed 's/ //g') ssh"
+	alias sshpipass="TERM=xterm-256color sshpass -p \$(nmcli con show hpi --show-secrets | awk -F: '\$1==\"802-1x.password\" { print \$2 }' | sed 's/ //g')"
+
+	SHELL_RC_LOADED=1
+}
+
+if [[ -z "$SHELL_RC_LOADED" ]]; then
+	setup_environment
 fi
 
-# enable gpg-agent
-gpg-connect-agent updatestartuptty /bye >/dev/null
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-
-
-# compatibility
-alias ssh='TERM=xterm-256color ssh'
-
-# aliases
-alias e="emacsclient -nw"
-alias v="nvim"
-alias vi="nvim"
-alias vim="nvim"
-
-alias dne="disown & exit"
-function stfu () { $@ >/dev/null 2>&1; }
-
-alias sudo='sudo '
-alias la='ls -lisa'
-alias copy='xclip -i -selection clipboard'
-alias paste='xclip -o -selection clipboard'
-alias sshpi="TERM=xterm-256color sshpass -p \$(nmcli con show hpi --show-secrets | awk -F: '\$1==\"802-1x.password\" { print \$2 }' | sed 's/ //g') ssh"
-alias sshpipass="TERM=xterm-256color sshpass -p \$(nmcli con show hpi --show-secrets | awk -F: '\$1==\"802-1x.password\" { print \$2 }' | sed 's/ //g')"
-
-export SHELL_RC_LOADED=1
