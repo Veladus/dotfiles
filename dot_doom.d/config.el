@@ -97,9 +97,20 @@
 (use-package! org-roam
   :init
   (setq org-roam-directory (expand-file-name "roam" org-directory))
+  (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
   :config
   (org-roam-db-autosync-mode)
-  (org-roam-update-org-id-locations))
+  (org-roam-update-org-id-locations)
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("p" "paper" plain "%?"
+           :target
+           (file+head
+            "%(if (boundp 'citar-org-notes-path-hack) citar-org-notes-path-hack (expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory))/${citar-citekey}.org"
+            "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+FILETAGS: paper\n\n")
+           :unnarrowed t))))
 
 (use-package! org-caldav
   :after org
@@ -135,6 +146,22 @@
   :after org
   :config
   (setq org-noter-auto-save-last-location t))
+
+;; Bibliography management
+(use-package! citar
+  :no-require
+  :custom
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography))
+
+(use-package citar-org-roam
+  :after (citar org-roam)
+  :config
+  (citar-org-roam-mode)
+  :custom
+  (citar-org-roam-capture-template-key "p"))
 
 ;; yas-snippet stuff
 (defun disable-require-final-newline ()

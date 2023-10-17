@@ -4,7 +4,7 @@ Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
 
 [Service]
 Type=forking
-ExecStart=/home/niko/.nix-profile/bin/emacs --daemon
+ExecStart=/bin/bash -c ". /etc/bash.bashrc;. $HOME/.shellrc; /home/niko/.nix-profile/bin/emacs --daemon"
 ExecStop=/home/niko/.nix-profile/bin/emacsclient --eval "(kill-emacs)"
 Restart=on-failure
 

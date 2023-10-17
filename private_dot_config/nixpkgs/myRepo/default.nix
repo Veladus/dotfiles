@@ -93,6 +93,7 @@ in {
         emacs
         entr
         fd
+        flameshot
         htop
         jq
         keepassxc
