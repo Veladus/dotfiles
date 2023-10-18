@@ -50,4 +50,3 @@
 ;(unpin! t)
 (package! org-caldav)
 (package! org-noter)
-;; (package! org-ref)

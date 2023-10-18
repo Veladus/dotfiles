@@ -154,7 +154,20 @@
   (org-cite-insert-processor 'citar)
   (org-cite-follow-processor 'citar)
   (org-cite-activate-processor 'citar)
-  (citar-bibliography org-cite-global-bibliography))
+  (citar-bibliography org-cite-global-bibliography)
+  :config
+  (map! :leader :desc "insert citation" :n "B i" #'citar-insert-citation)
+  (map! :leader :desc "insert key" :n "B k" #'citar-insert-key)
+  (map! :leader :desc "open" :n "B o" #'citar-open)
+  (map! :leader :desc "open at point" :n "B p" #'citar-dwim)
+  (map! :leader :desc "open in library" :n "B l" #'citar-open-files)
+  (map! :leader :desc "open entry" :n "B e" #'citar-open-entry)
+  (map! :leader :desc "add file to library" :n "B a" #'citar-add-file-to-library))
+  
+
+
+
+
 
 (use-package citar-org-roam
   :after (citar org-roam)
