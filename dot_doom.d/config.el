@@ -47,7 +47,6 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
-
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -82,7 +81,8 @@
 
 ;; Global packages
 (after! evil
-  (map! :i "C-S-V" #'clipboard-yank))
+  (map! :i "C-S-V" #'clipboard-yank)
+  (map! :v "C-S-C" #'clipboard-kill-ring-save))
 
 ;; Org packages
 (use-package! org
@@ -102,15 +102,21 @@
   (org-roam-db-autosync-mode)
   (org-roam-update-org-id-locations)
   (setq org-roam-capture-templates
-        '(("d" "default" plain "%?"
+        '(("d" "/d/efault" plain "%?"
            :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
-          ("p" "paper" plain "%?"
-           :target
-           (file+head
-            "%(if (boundp 'citar-org-notes-path-hack) citar-org-notes-path-hack (expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory))/${citar-citekey}.org"
-            "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+FILETAGS: paper\n\n")
+          ("p" "/p/arameter" plain "%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+FILETAGS: parameter")
+           :unnarrowed t)
+          ("r" "p/r/oblem" plain "%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+FILETAGS: problem")
+           :unnarrowed t)
+          ("P" "/P/aper" plain "%?"
+           :target (file+head
+                    "%(if (boundp 'citar-org-notes-path-hack) citar-org-notes-path-hack (expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory))/${citar-citekey}.org"
+                    "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+FILETAGS: paper\n\n")
            :unnarrowed t))))
+          
 
 (use-package! org-caldav
   :after org
@@ -159,22 +165,18 @@
   (map! :leader :desc "insert citation" :n "B i" #'citar-insert-citation)
   (map! :leader :desc "insert key" :n "B k" #'citar-insert-key)
   (map! :leader :desc "open" :n "B o" #'citar-open)
+  (map! :leader :desc "open" :n "B n" #'citar-open-notes)
   (map! :leader :desc "open at point" :n "B p" #'citar-dwim)
   (map! :leader :desc "open in library" :n "B l" #'citar-open-files)
   (map! :leader :desc "open entry" :n "B e" #'citar-open-entry)
   (map! :leader :desc "add file to library" :n "B a" #'citar-add-file-to-library))
-  
-
-
-
-
 
 (use-package citar-org-roam
   :after (citar org-roam)
   :config
   (citar-org-roam-mode)
   :custom
-  (citar-org-roam-capture-template-key "p"))
+  (citar-org-roam-capture-template-key "P"))
 
 ;; yas-snippet stuff
 (defun disable-require-final-newline ()
