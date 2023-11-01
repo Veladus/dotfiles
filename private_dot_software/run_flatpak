@@ -55,7 +55,6 @@ init
 # Apps
 flatpak_install org.gimp.GIMP
 flatpak_install org.onlyoffice.desktopeditors
-flatpak_install org.otfried.Ipe
 flatpak_install us.zoom.Zoom
 # Protonmail & Protonvpn
 flatpak_install ch.protonmail.protonmail-bridge

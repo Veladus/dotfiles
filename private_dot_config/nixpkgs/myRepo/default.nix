@@ -95,6 +95,7 @@ in {
         fd
         flameshot
         htop
+        ipe
         jq
         keepassxc
         nix-index
