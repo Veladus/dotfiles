@@ -79,8 +79,18 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; Adapt path variable
+(let ((nix-profile-bin (concat (getenv "HOME") "/.nix-profile/bin")))
+  (unless
+      (string-match-p
+       (concat "\\(^\\|:\\)" (regexp-quote nix-profile-bin) "\\($\\|:\\)")
+       (getenv "PATH"))
+    (setenv "PATH" (concat nix-profile-bin ":" (getenv "PATH")))
+    (setq exec-path (cons nix-profile-bin exec-path))))
+
 ;; Global packages
-(after! evil
+(use-package! evil
+  :config
   (map! :i "C-S-V" #'clipboard-yank)
   (map! :v "C-S-C" #'clipboard-kill-ring-save))
 
@@ -89,6 +99,11 @@
   :init
   (setq org-directory "~/org/")
   :config
+  (setq! org-format-latex-options
+         (plist-put org-format-latex-options :scale 2.5))
+  (add-to-list 'org-latex-packages-alist
+               '("" "mathtools" t))
+
   (map! :map org-mode-map
         :n "M-j" #'org-metadown
         :n "M-k" #'org-metaup)
@@ -177,6 +192,7 @@
   (citar-org-roam-mode)
   :custom
   (citar-org-roam-capture-template-key "P"))
+org-format-latex-options
 
 ;; yas-snippet stuff
 (defun disable-require-final-newline ()
