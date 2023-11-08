@@ -1,5 +1,6 @@
 {
-    pkgs ? import <nixpkgs> {}
+    pkgs ? import <nixpkgs> {},
+    pkgs-unstable ? import <nixpkgs-unstable> {},
 }:
 
 let
@@ -111,4 +112,8 @@ in {
         vscode
         xclip
         xournalpp;
+
+    inherit (pkgs-unstable)
+        zig
+        zls;
 }
