@@ -90,14 +90,12 @@ in {
     inherit (pkgs) 
         chezmoi
         dejavu_fonts
-        discord
         emacs
         entr
         fd
         flameshot
         htop
         ipe
-        jq
         keepassxc
         nix-index
         okular
@@ -109,9 +107,7 @@ in {
         tealdeer
         thunderbird
         tree
-        vscode
-        xclip
-        xournalpp;
+        xclip;
 
     inherit (pkgs-unstable)
         zig
