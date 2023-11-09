@@ -89,14 +89,17 @@ in {
 
     inherit (pkgs) 
         chezmoi
+        cmake
         dejavu_fonts
         emacs
         entr
         fd
         flameshot
+        gdb
         htop
         ipe
         keepassxc
+        ninja
         nix-index
         okular
         ripgrep
