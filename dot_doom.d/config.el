@@ -99,10 +99,11 @@
   :init
   (setq org-directory "~/org/")
   :config
-  (setq! org-format-latex-options
-         (plist-put org-format-latex-options :scale 2.5))
+  (setq!
+   org-format-latex-options (plist-put org-format-latex-options :scale 2.5)
+   org-startup-with-latex-preview t)
   (add-to-list 'org-latex-packages-alist
-               '("" "mathtools" t))
+            '("" "mathtools" t))
 
   (map! :map org-mode-map
         :n "M-j" #'org-metadown
