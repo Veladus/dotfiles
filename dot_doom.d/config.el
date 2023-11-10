@@ -115,6 +115,10 @@
   (setq org-roam-directory (expand-file-name "roam" org-directory))
   (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
   :config
+  (setq! org-roam-mode-sections
+         (list
+          (lambda (node) (org-roam-backlinks-section node :unique t))
+          #'org-roam-reflinks-section))
   (org-roam-db-autosync-mode)
   (org-roam-update-org-id-locations)
   (setq org-roam-capture-templates
