@@ -225,3 +225,6 @@ org-format-latex-options
 (use-package! magit
   :config
   (set-ssh-auth-to-gpg-socket))
+
+;; Graphviz
+(use-package! graphviz-dot-mode)

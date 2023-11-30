@@ -51,4 +51,5 @@
 (package! biblio)
 (package! org-caldav)
 (package! org-noter)
+(package! graphviz-dot-mode)
 (package! zig-mode)
