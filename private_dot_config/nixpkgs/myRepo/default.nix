@@ -13,7 +13,7 @@ let
       libclang = pkgs.llvmPackages_12.libclang;
     };
 
-    myCf-tool = pkgs.callPackage ./cf-tool.nix {};
+    bapc-tools = pkgs.callPackage ./bapc.nix {};
 
 #    myTexlive = (pkgs.texlive.combine {
 #      inherit (pkgs.texlive)
@@ -71,7 +71,7 @@ let
 #    });
     myTexlive = pkgs.texlive.combined.scheme-full;
 
-    myIpe = (pkgs.ipe.override { texlive = myTexlive; });
+    myIpe = (pkgs.ipe.override { texliveSmall = myTexlive; });
 in {
     setupEnv = (pkgs.runCommand "profile" {} ''
           mkdir -p $out/etc/profile.d
@@ -79,7 +79,7 @@ in {
     '');
 
     inherit
-      myCf-tool
+      bapc-tools
       #myIpe
       myNeovim
       myTexlive;
