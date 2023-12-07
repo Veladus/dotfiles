@@ -99,7 +99,6 @@ in {
         htop
         ipe
         keepassxc
-        mattermost-desktop
         ninja
         nix-index
         okular
