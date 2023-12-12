@@ -88,6 +88,7 @@ in {
       clion;
 
     inherit (pkgs) 
+        ccls
         chezmoi
         cmake
         dejavu_fonts

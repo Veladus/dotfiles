@@ -13,3 +13,4 @@
 *.pdf
 *.synctex.gz
 **/.idea
+**/.ccls-cache
