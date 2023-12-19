@@ -97,6 +97,7 @@ in {
         fd
         flameshot
         gdb
+        graphviz
         htop
         ipe
         keepassxc
