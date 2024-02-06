@@ -47,6 +47,10 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
+
+;; Ask wether emacs should really be killed
+(setq confirm-kill-emacs #'yes-or-no-p)
+
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -92,23 +96,54 @@
 (use-package! evil
   :config
   (map! :i "C-S-V" #'clipboard-yank)
-  (map! :v "C-S-C" #'clipboard-kill-ring-save))
+  (map! :v "C-S-C" #'clipboard-kill-ring-save)
+
+  ;; q only kills current buffer
+  (defun save-and-kill-this-buffer () (interactive) (save-buffer) (kill-current-buffer))
+  (evil-ex-define-cmd "wq" 'save-and-kill-this-buffer)
+  (evil-ex-define-cmd "q" 'kill-current-buffer))
+
+;; automatic line wrapping
+(map!
+ :leader
+ :n "t W" #'auto-fill-mode)
+(setq! fill-column 80)
 
 ;; Org packages
+(defun org-latex-preview-update-scaling ()
+  "updates the scale of the latex previews in org-mode to fit with the display size"
+  (interactive)
+  (let ((desired-scale (if (> (display-pixel-width) 1920) 2.6 1.3)))
+    (if (not (eq desired-scale (plist-get org-format-latex-options :scale)))
+        (progn
+          (setq org-format-latex-options (plist-put org-format-latex-options :scale desired-scale))
+          (setq current-prefix-arg '(64))
+          (org-latex-preview)
+          (setq current-prefix-arg '(16))
+          (org-latex-preview)))))
+
 (use-package! org
   :init
   (setq org-directory "~/org/")
   :config
   (setq!
-   org-format-latex-options (plist-put org-format-latex-options :scale 2.5)
+   org-format-latex-options (plist-put org-format-latex-options :scale 2.6)
    org-startup-with-latex-preview t)
   (add-to-list 'org-latex-packages-alist
-            '("" "mathtools" t))
+               '("" "mathtools" t))
+  (add-to-list 'org-latex-packages-alist
+               '("" "mathrsfs" t))
 
   (map! :map org-mode-map
         :n "M-j" #'org-metadown
-        :n "M-k" #'org-metaup)
-  (setq org-return-follows-link t))
+        :n "M-k" #'org-metaup
+        :nvi "C-c C-x C-S-l" #'org-latex-preview-update-scaling)
+  (map! :map org-mode-map
+        :leader
+        :desc "LaTeX Fragments"
+        "t L" #'org-fragtog-mode)
+  (setq org-return-follows-link t)
+  (add-hook! org-mode #'turn-on-auto-fill #'org-fragtog-mode))
 
 (use-package! org-roam
   :init

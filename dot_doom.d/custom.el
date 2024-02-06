@@ -10,6 +10,18 @@
        (expand-file-name dominating-folder))
       (when
           (file-newer-than-file-p
+           (expand-file-name "scripts/ma-init.el" ma-base-directory)
+           (expand-file-name "scripts/ma-init.elc" ma-base-directory))
+        (byte-compile-file
+         (expand-file-name "scripts/ma-init.el" ma-base-directory)))
+      (load
+       (expand-file-name "scripts/ma-init" ma-base-directory)
+       nil t))
+     (eval when dominating-folder
+      (setq-local ma-base-directory
+                  (expand-file-name dominating-folder))
+      (when
+          (file-newer-than-file-p
            (expand-file-name "ma-init.el" ma-base-directory)
            (expand-file-name "ma-init.elc" ma-base-directory))
         (byte-compile-file

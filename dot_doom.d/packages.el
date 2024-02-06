@@ -51,5 +51,6 @@
 (package! biblio)
 (package! org-caldav)
 (package! org-noter)
+(package! org-fragtop
+  :recipe (:host github :repo "io12/org-fragtog"))
 (package! graphviz-dot-mode)
-(package! zig-mode)
