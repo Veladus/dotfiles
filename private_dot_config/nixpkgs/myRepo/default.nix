@@ -99,7 +99,6 @@ in {
         gdb
         graphviz
         htop
-        ipe
         keepassxc
         ninja
         nix-index
