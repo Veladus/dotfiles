@@ -103,47 +103,86 @@
   (evil-ex-define-cmd "wq" 'save-and-kill-this-buffer)
   (evil-ex-define-cmd "q" 'kill-current-buffer))
 
+(use-package! olivetti
+  :config
+  (map!
+   :leader
+   "t o" #'olivetti-mode))
+
 ;; automatic line wrapping
 (map!
  :leader
  :n "t W" #'auto-fill-mode)
 (setq! fill-column 80)
 
+(defun reflow-paragraph ()
+  (interactive)
+  ;; first put the whole paragraph on one line
+  (let ((fill-column 100000)) (fill-paragraph))
+
+  ;; now we break lines at dots honoring org-lists
+  (save-excursion
+   (let* ((org-indentation
+           (if org-list-full-item-re
+               (progn
+                 (beginning-of-line)
+                 (if (re-search-forward org-list-full-item-re (line-end-position) t)
+                     (current-column)))))
+          (indentation (or org-indentation (current-indentation))))
+     (while (re-search-forward "[?!\.] " (line-end-position) t)
+       (backward-char 1)
+       (delete-char 1)
+       (newline)
+       (indent-to (or indentation 0))))
+
+  ;; finally we reenable all fragments if fragtog mode is on
+   (if org-fragtog-mode
+       (save-excursion
+         (mark-paragraph)
+         (org-latex-preview)))))
+
+(map!
+ "M-Q" #'reflow-paragraph)
+
 ;; Org packages
 (defun org-latex-preview-update-scaling ()
   "updates the scale of the latex previews in org-mode to fit with the display size"
   (interactive)
-  (let ((desired-scale (if (> (display-pixel-width) 1920) 2.6 1.3)))
-    (if (not (eq desired-scale (plist-get org-format-latex-options :scale)))
-        (progn
-          (setq org-format-latex-options (plist-put org-format-latex-options :scale desired-scale))
-          (setq current-prefix-arg '(64))
-          (org-latex-preview)
-          (setq current-prefix-arg '(16))
-          (org-latex-preview)))))
+  (let ((desired-scale (/ (default-line-height) 18)))
+    (setq org-format-latex-options (plist-put org-format-latex-options :scale desired-scale))))
 
 (use-package! org
   :init
   (setq org-directory "~/org/")
   :config
-  (setq!
-   org-format-latex-options (plist-put org-format-latex-options :scale 2.6)
-   org-startup-with-latex-preview t)
-  (add-to-list 'org-latex-packages-alist
-               '("" "mathtools" t))
-  (add-to-list 'org-latex-packages-alist
-               '("" "mathrsfs" t))
-
+  ;; misc
   (map! :map org-mode-map
         :n "M-j" #'org-metadown
         :n "M-k" #'org-metaup
         :nvi "C-c C-x C-S-l" #'org-latex-preview-update-scaling)
+  (setq org-return-follows-link t)
+
+  ;; Latex fragments
+  (setq! org-startup-with-latex-preview t)
+  (add-to-list 'org-latex-packages-alist
+               '("" "mathtools" t))
+  (add-to-list 'org-latex-packages-alist
+               '("" "mathrsfs" t))
   (map! :map org-mode-map
         :leader
         :desc "LaTeX Fragments"
         "t L" #'org-fragtog-mode)
-  (setq org-return-follows-link t)
-  (add-hook! org-mode #'turn-on-auto-fill #'org-fragtog-mode))
+  (add-hook! org-mode #'org-fragtog-mode #'org-latex-preview-update-scaling)
+
+  ;; olivetti compatability
+  (defun turn-on-olivetti-mode ()
+    (unless olivetti-mode (olivetti-mode)))
+  (add-hook! org-mode #'turn-on-olivetti-mode)
+
+  ;; yas compatability
+  (defun org-yas-next-field-hook-entry ()
+    (if (yas-current-field) (yas-next-field)))
+  (add-to-list 'org-tab-first-hook #'org-yas-next-field-hook-entry))
 
 (use-package! org-roam
   :init
@@ -239,10 +278,6 @@ org-format-latex-options
   (setq require-final-newline nil))
 (use-package! yasnippet
  :config
-  ;; Remove default TAB keybindings
-  ;; (define-key yas-minor-mode-map (kbd "<tab>") nil)
-  ;; (define-key yas-minor-mode-map (kbd "TAB") nil)
-
   ;; Define new keybinding
   (map!
    :map yas-minor-mode-map
