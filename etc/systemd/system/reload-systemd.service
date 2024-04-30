@@ -1,0 +1,13 @@
+[Unit]
+Description=Start nix-daemon after mounting /nix
+After=nix.mount
+Requires=nix.mount
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/systemctl daemon-reload
+ExecStart=/usr/bin/systemctl start nix-daemon.service
+
+[Install]
+WantedBy=multi-user.target
