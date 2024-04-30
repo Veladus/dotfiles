@@ -1,2 +1,4 @@
 #!/bin/sh
+mkdir -p /boot.backup
+rsync -au --delete /boot/ /boot.backup/
 exec /usr/bin/btrbk -q snapshot
