@@ -148,7 +148,7 @@
 (defun org-latex-preview-update-scaling ()
   "updates the scale of the latex previews in org-mode to fit with the display size"
   (interactive)
-  (let ((desired-scale (/ (default-line-height) 18)))
+  (let ((desired-scale (/ (default-line-height) 14.4)))
     (setq org-format-latex-options (plist-put org-format-latex-options :scale desired-scale))))
 
 (use-package! org
@@ -174,8 +174,15 @@
         "t L" #'org-fragtog-mode)
   (add-hook! org-mode #'org-fragtog-mode #'org-latex-preview-update-scaling)
 
-  ;; olivetti compatability
+  ;; configuration
+  (defun my-org-mode-config ()
+    (display-line-numbers-mode 0)
+    (text-scale-set 2))
+  (add-hook! org-mode #'my-org-mode-config)
+
+  ;; Olivetti compatability
   (defun turn-on-olivetti-mode ()
+    (setq! olivetti-body-width 104)
     (unless olivetti-mode (olivetti-mode)))
   (add-hook! org-mode #'turn-on-olivetti-mode)
 
@@ -256,14 +263,15 @@
   (org-cite-activate-processor 'citar)
   (citar-bibliography org-cite-global-bibliography)
   :config
-  (map! :leader :desc "insert citation" :n "B i" #'citar-insert-citation)
-  (map! :leader :desc "insert key" :n "B k" #'citar-insert-key)
+  (map! :leader :desc "Lookup citation" :n "B L" #'biblio-lookup)
+  (map! :leader :desc "Insert citation" :n "B i" #'citar-insert-citation)
+  (map! :leader :desc "insert Key" :n "B k" #'citar-insert-keys)
   (map! :leader :desc "open" :n "B o" #'citar-open)
-  (map! :leader :desc "open" :n "B n" #'citar-open-notes)
-  (map! :leader :desc "open at point" :n "B p" #'citar-dwim)
-  (map! :leader :desc "open in library" :n "B l" #'citar-open-files)
-  (map! :leader :desc "open entry" :n "B e" #'citar-open-entry)
-  (map! :leader :desc "add file to library" :n "B a" #'citar-add-file-to-library))
+  (map! :leader :desc "open Notes" :n "B n" #'citar-open-notes)
+  (map! :leader :desc "open at Point" :n "B p" #'citar-dwim)
+  (map! :leader :desc "open in Library" :n "B l" #'citar-open-files)
+  (map! :leader :desc "open Entry" :n "B e" #'citar-open-entry)
+  (map! :leader :desc "Add file to library" :n "B a" #'citar-add-file-to-library))
 
 (use-package citar-org-roam
   :after (citar org-roam)
@@ -271,7 +279,6 @@
   (citar-org-roam-mode)
   :custom
   (citar-org-roam-capture-template-key "P"))
-org-format-latex-options
 
 ;; yas-snippet stuff
 (defun disable-require-final-newline ()
