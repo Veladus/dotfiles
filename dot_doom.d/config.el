@@ -151,6 +151,35 @@
   (let ((desired-scale (/ (default-line-height) 14.4)))
     (setq org-format-latex-options (plist-put org-format-latex-options :scale desired-scale))))
 
+(defun org-collect-named-elements ()
+  "Collect all elements with `#+NAME:` in the current Org buffer."
+  (let (names)
+    (org-element-map (org-element-parse-buffer) org-element-all-elements
+      (lambda (el)
+        (let ((name (org-element-property :name el)))
+          (when name
+            (push name names)))))
+    names))
+(defun org-collect-targets ()
+  "Collect all targets in the current Org buffer and return them as a list."
+  (let (targets)
+    (org-element-map (org-element-parse-buffer) 'target
+      (lambda (el)
+        (let ((value (org-element-property :value el)))
+          (when value
+            (push value targets)))))
+    targets))
+(defun org-insert-link-internal ()
+  "Inserts a link with completing internal links"
+  (interactive)
+  (let* ((elements (org-collect-named-elements))
+         (targets (org-collect-targets))
+         (vertico-sort-function 'vertico-sort-history-alpha)
+         (link-destination (completing-read "Link destination: " (append elements targets) nil t nil '--org-insert-link-internal-history)))
+    (message (string-join completions ", "))
+    (org-insert-link nil link-destination)))
+
+
 (use-package! org
   :init
   (setq org-directory "~/org/")
@@ -159,7 +188,11 @@
   (map! :map org-mode-map
         :n "M-j" #'org-metadown
         :n "M-k" #'org-metaup
-        :nvi "C-c C-x C-S-l" #'org-latex-preview-update-scaling)
+        :nvi "C-c C-x C-S-l" #'org-latex-preview-update-scaling
+        :nvi "C-c l" #'org-insert-link-internal)
+  (map! :map org-mode-map
+        :localleader
+        "l n" #'org-insert-link-internal)
   (setq org-return-follows-link t)
 
   ;; Latex fragments
@@ -284,7 +317,7 @@
 (defun disable-require-final-newline ()
   (setq require-final-newline nil))
 (use-package! yasnippet
- :config
+  :config
   ;; Define new keybinding
   (map!
    :map yas-minor-mode-map

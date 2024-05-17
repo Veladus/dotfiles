@@ -49,9 +49,9 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 (package! biblio)
+;; (package! corfu)
+(package! graphviz-dot-mode)
 (package! olivetti)
 (package! org-caldav)
-(package! org-fragtop
-  :recipe (:host github :repo "io12/org-fragtog"))
+(package! org-fragtop :recipe (:host github :repo "io12/org-fragtog"))
 (package! org-noter)
-(package! graphviz-dot-mode)
