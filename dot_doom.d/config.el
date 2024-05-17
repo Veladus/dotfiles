@@ -176,7 +176,6 @@
          (targets (org-collect-targets))
          (vertico-sort-function 'vertico-sort-history-alpha)
          (link-destination (completing-read "Link destination: " (append elements targets) nil t nil '--org-insert-link-internal-history)))
-    (message (string-join completions ", "))
     (org-insert-link nil link-destination)))
 
 
