@@ -92,13 +92,14 @@ in {
         chezmoi
         cmake
         dejavu_fonts
-        emacs
+        emacs29
         entr
         fd
         flameshot
         gdb
         graphviz
         htop
+        ipe
         keepassxc
         ninja
         nix-index
