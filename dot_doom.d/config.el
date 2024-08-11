@@ -337,3 +337,27 @@
 
 ;; Graphviz
 (use-package! graphviz-dot-mode)
+
+;; copilot
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)
+              ("C-S-c C-S-c" . 'copilot-complete)
+              ("C-S-c C-S-n" . 'copilot-next-completion)
+              ("C-S-c C-S-p" . 'copilot-previous-completion))
+  :init
+  (map! :leader
+        :desc "Toggle copilot"
+        :n "t C" #'copilot-mode))
+
+;; company box
+;; fixes copilot location bug
+(use-package company-box
+  :hook (company-mode . company-box-mode)
+  :config
+  (setq-hook! 'org-mode-hook
+    company-box-frame-top-margin 20))
