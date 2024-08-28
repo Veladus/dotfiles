@@ -71,7 +71,11 @@ let
 #    });
     myTexlive = pkgs.texlive.combined.scheme-full;
 
-    myIpe = (pkgs.ipe.override { texliveSmall = myTexlive; });
+    myIpe = pkgs.qt6Packages.callPackage ./ipe.nix {
+      texliveSmall = myTexlive;
+    };
+
+    myGurobi = pkgs.callPackage ./gurobi.nix {};
 in {
     setupEnv = (pkgs.runCommand "profile" {} ''
           mkdir -p $out/etc/profile.d
@@ -80,7 +84,8 @@ in {
 
     inherit
       bapc-tools
-      #myIpe
+      myIpe
+      myGurobi
       myNeovim
       myTexlive;
 
@@ -94,15 +99,16 @@ in {
         dejavu_fonts
         emacs29
         entr
+        evince
         fd
         flameshot
         gdb
         graphviz
         htop
-        ipe
         keepassxc
         ninja
         nix-index
+        nodejs_22
         okular
         ripgrep
         rustup
