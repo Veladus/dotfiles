@@ -47,14 +47,13 @@
 ;; ...or multiple packages
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
-;(unpin! t)
 (package! biblio)
 (package! company-box)
-;; (package! corfu)
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 (package! graphviz-dot-mode)
 (package! olivetti)
 (package! org-caldav)
 (package! org-fragtop :recipe (:host github :repo "io12/org-fragtog"))
 (package! org-noter)
-(package! copilot
-  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+(package! xenops)

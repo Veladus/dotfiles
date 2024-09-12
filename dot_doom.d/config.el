@@ -51,6 +51,7 @@
 ;; Ask wether emacs should really be killed
 (setq confirm-kill-emacs #'yes-or-no-p)
 
+
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -200,6 +201,8 @@
                '("" "mathtools" t))
   (add-to-list 'org-latex-packages-alist
                '("" "mathrsfs" t))
+  (add-to-list 'org-latex-packages-alist
+               '("" "amssymb" t))
   (map! :map org-mode-map
         :leader
         :desc "LaTeX Fragments"
@@ -249,7 +252,7 @@
                     "%(if (boundp 'citar-org-notes-path-hack) citar-org-notes-path-hack (expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory))/${citar-citekey}.org"
                     "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+FILETAGS: paper\n\n")
            :unnarrowed t))))
-          
+
 
 (use-package! org-caldav
   :after org
@@ -361,3 +364,45 @@
   :config
   (setq-hook! 'org-mode-hook
     company-box-frame-top-margin 20))
+
+(use-package! auctex
+  :config
+  ;; Always ask for the master file
+  ;; when creating a new TeX file.
+  (setq-default
+   TeX-auto-save t
+   TeX-parse-self t
+   TeX-master nil)
+
+  ;; Enable synctex correlation. From Okular just press
+  ;; Shift + Left click to go to the good line.
+  (setq TeX-source-correlate-mode t
+        TeX-source-correlate-start-server t)
+
+  ;; Enable Cref
+  (if (boundp 'reftex-ref-style-alist)
+      (progn
+        (add-to-list
+          'reftex-ref-style-alist
+          '("Cleveref" "cleveref"
+            (("\\cref" ?c) ("\\Cref" ?C) ("\\cpageref" ?d) ("\\Cpageref" ?D))))
+        ;; (reftex-ref-style-activate "Cleveref")
+        (TeX-add-symbols
+         '("cref" TeX-arg-ref)
+         '("Cref" TeX-arg-ref)
+         '("cpageref" TeX-arg-ref)
+         '("Cpageref" TeX-arg-ref))))
+
+  ;; Set Okular as the default PDF viewer.
+  (eval-after-load "tex"
+    '(setcar (cdr (assoc 'output-pdf TeX-view-program-selection)) "Okular")))
+
+(use-package! xenops
+  :hook ((latex-mode LaTeX-mode) . xenops-mode)
+  :config
+  (map! :map xenops-mode-map
+        "C-c , -" #'xenops-decrease-size
+        "C-c , =" #'xenops-increase-size
+        "C-c , _" #'xenops-decrease-size
+        "C-c , +" #'xenops-increase-size)
+  (setq xenops-reveal-on-entry t))
