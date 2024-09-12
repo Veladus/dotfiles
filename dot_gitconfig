@@ -1,7 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
 	name = Niko Hastrich
-	email = niko.hastrich@student.hpi.uni-potsdam.de
+	email = niko.hastrich@cs.uni-saarland.de
 	signingkey = 0x863BD282C6F3423A
 [commit]
 	gpgsign = true
