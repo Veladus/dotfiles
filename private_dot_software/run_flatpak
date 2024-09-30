@@ -54,7 +54,6 @@ init
 
 # Apps
 flatpak_install com.nextcloud.desktopclient.nextcloud
-flatpak_install io.github.sigmasd.stimulator
 flatpak_install org.gimp.GIMP
 flatpak_install org.onlyoffice.desktopeditors
 #flatpak_install org.otfried.Ipe
