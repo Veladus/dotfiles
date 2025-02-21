@@ -7,6 +7,9 @@ let
     myProfile = pkgs.writeText "my-profile" ''
       export MANPATH=":"
       export PATH="$PATH:$HOME/.cargo/bin"
+      export CPATH="$CPATH:$HOME/.nix-profile/include"
+      export LIBRARY_PATH="$LIBRARY_PATH:$HOME/.nix-profile/lib"
+      export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/.nix-profile/lib"
     '';
 
     myNeovim = pkgs.callPackage ./neovim {

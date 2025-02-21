@@ -4,4 +4,5 @@ let
 in pkgs.buildEnv {
 	name = "myRepoPackages";
 	paths = builtins.attrValues myRepo;
+	extraOutputsToInstall = [ "dev" ];
 }
