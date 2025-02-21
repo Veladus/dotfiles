@@ -105,6 +105,7 @@ in {
         gdb
         graphviz
         htop
+        kdotool
         keepassxc
         ninja
         nix-index
