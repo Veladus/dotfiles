@@ -88,23 +88,23 @@ in {
     inherit
       bapc-tools
       myIpe
-      myGurobi
       myNeovim
       myTexlive;
 
     inherit (pkgs.jetbrains) 
       clion;
 
-    inherit (pkgs) 
+    inherit (pkgs)
         ccls
         chezmoi
         cmake
         dejavu_fonts
+        dotool
         emacs29
         entr
         evince
         fd
-        flameshot
+        gcc14
         gdb
         graphviz
         htop
@@ -122,7 +122,8 @@ in {
         tealdeer
         thunderbird
         tree
-        xclip;
+        wl-clipboard;
+
 
     inherit (pkgs-unstable)
         zig
