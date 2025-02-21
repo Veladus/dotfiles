@@ -24,8 +24,8 @@ in stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "RagnarGrootKoerkamp";
     repo = "BAPCtools";
-    rev = "a1f33f323b4a3ced6accc8f0594f5338899258ac";
-    sha256 = "1g2krfsy4ql64qwm3ibcbpbpvkjwgbfl6gfq2g6x45i167cqbx75";
+    rev = "2f7234b5cd382415525ecf209b62920cd09fecad";
+    sha256 = "7bGNpiOwaqDgsgBhMO3OdlS9F04xKfPpZJMomhinLZs=";
   };
 
 
