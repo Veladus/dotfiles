@@ -34,23 +34,14 @@
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one-light)
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
+;; If you or ers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
 ;; Ask wether emacs should really be killed
 (setq confirm-kill-emacs #'yes-or-no-p)
 
+;; Change theme
+(setq doom-theme 'doom-one-light)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -342,20 +333,20 @@
 (use-package! graphviz-dot-mode)
 
 ;; copilot
-(use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)
-              ("C-S-c C-S-c" . 'copilot-complete)
-              ("C-S-c C-S-n" . 'copilot-next-completion)
-              ("C-S-c C-S-p" . 'copilot-previous-completion))
-  :init
-  (map! :leader
-        :desc "Toggle copilot"
-        :n "t C" #'copilot-mode))
+;; (use-package! copilot
+;;   :hook (prog-mode . copilot-mode)
+;;   :bind (:map copilot-completion-map
+;;               ("<tab>" . 'copilot-accept-completion)
+;;               ("TAB" . 'copilot-accept-completion)
+;;               ("C-TAB" . 'copilot-accept-completion-by-word)
+;;               ("C-<tab>" . 'copilot-accept-completion-by-word)
+;;               ("C-S-c C-S-c" . 'copilot-complete)
+;;               ("C-S-c C-S-n" . 'copilot-next-completion)
+;;               ("C-S-c C-S-p" . 'copilot-previous-completion))
+;;   :init
+;;   (map! :leader
+;;         :desc "Toggle copilot"
+;;         :n "t C" #'copilot-mode))
 
 ;; company box
 ;; fixes copilot location bug
@@ -366,43 +357,84 @@
     company-box-frame-top-margin 20))
 
 (use-package! auctex
-  :config
+  :custom
+  ;; next line does not work
+  ;; (TeX-electric-math ("\\(" . "\\)") "Use \\( . \\) for brackets")
   ;; Always ask for the master file
   ;; when creating a new TeX file.
-  (setq-default
-   TeX-auto-save t
-   TeX-parse-self t
-   TeX-master nil)
-
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+  (TeX-master nil)
   ;; Enable synctex correlation. From Okular just press
   ;; Shift + Left click to go to the good line.
-  (setq TeX-source-correlate-mode t
-        TeX-source-correlate-start-server t)
+  (TeX-source-correlate-mode t)
+  (TeX-source-correlate-start-server t)
+  ;; adapt tex-fold-mode
+  ;; (TeX-fold-auto-reveal t)              ;
+  ;; adapt preview
+  (preview-auto-reveal t)
+  (preview-scale-function '(lambda () (* 1.5 (expt text-scale-mode-step text-scale-mode-amount) (funcall (preview-scale-from-face)))))
+  :config
+  ;; always prettify symbols
+  (add-hook! (latex-mode LaTeX-mode) #'prettify-symbols-mode)
 
-  ;; Enable Cref
-  (if (boundp 'reftex-ref-style-alist)
-      (progn
-        (add-to-list
-          'reftex-ref-style-alist
-          '("Cleveref" "cleveref"
-            (("\\cref" ?c) ("\\Cref" ?C) ("\\cpageref" ?d) ("\\Cpageref" ?D))))
-        ;; (reftex-ref-style-activate "Cleveref")
-        (TeX-add-symbols
-         '("cref" TeX-arg-ref)
-         '("Cref" TeX-arg-ref)
-         '("cpageref" TeX-arg-ref)
-         '("Cpageref" TeX-arg-ref))))
+  ;; always enable fold mode and configure it
+  (setq adapt-tex-fold-macro t)
+  (add-hook! (latex-mode LaTeX-mode)
+    (TeX-fold-mode nil)
+    (if adapt-tex-fold-macro
+        (progn
+          (add-to-list 'TeX-fold-macro-spec-list '("r[{1}]" ("cref" "Cref")))
+          (add-to-list 'TeX-fold-macro-spec-list '("c" ("citeauthor" "autocite")))
+          (add-to-list 'TeX-fold-macro-spec-list '("T[{1}]" ("todo")))
+          (setq adapt-tex-fold-macro nil))))
+  ;; (add-hook 'find-file-hook 'TeX-fold-buffer t)
+
+  ;; Scale previews
+  (setq! preview-scale-function (lambda () (* 1.5 (expt text-scale-mode-step text-scale-mode-amount) (funcall (preview-scale-from-face)))))
 
   ;; Set Okular as the default PDF viewer.
   (eval-after-load "tex"
     '(setcar (cdr (assoc 'output-pdf TeX-view-program-selection)) "Okular")))
 
-(use-package! xenops
-  :hook ((latex-mode LaTeX-mode) . xenops-mode)
+(use-package! reftex
+  :custom
+  (reftex-ref-style-default-list '("Cleveref" "Plain" "Default") "Use Cleveref as default")
   :config
-  (map! :map xenops-mode-map
-        "C-c , -" #'xenops-decrease-size
-        "C-c , =" #'xenops-increase-size
-        "C-c , _" #'xenops-decrease-size
-        "C-c , +" #'xenops-increase-size)
-  (setq xenops-reveal-on-entry t))
+  (add-to-list
+         'reftex-ref-style-alist
+         '("Cleveref" "cleveref"
+           (("\\cref" ?c) ("\\Cref" ?C) ("\\cpageref" ?d) ("\\Cpageref" ?D))))
+  (add-to-list
+         'reftex-ref-style-alist
+         '("Plain" t (("" ? ))))
+  (map! :map reftex-mode-map
+        "C-c (" #'reftex-reference
+        "C-c )" #'reftex-label)
+  ;; (eval-after-load "tex" '(reftex-ref-style-activate "Cleveref"))
+  (TeX-add-symbols
+   '("cref" TeX-arg-ref)
+   '("Cref" TeX-arg-ref)
+   '("cpageref" TeX-arg-ref)
+   '("Cpageref" TeX-arg-ref)))
+
+(use-package! cdlatex
+  :hook (latex-mode . LaTeX-mode)
+  :custom
+  (cdlatex-math-symbol-alist
+   '((?{ "\\subseteq" "\\subset")
+     (?} "\\supseteq" "\\supset")))
+  (cdlatex-math-modify-alist
+   '((?F "\\mathfrak" nil t nil nil)
+     (?O "\\overline" nil t nil nil)
+     (?s "\\mathscr" nil t nil nil))))
+
+;; (use-package! xenops
+;;   :hook ((latex-mode LaTeX-mode) . xenops-mode)
+;;   :config
+;;   (map! :map xenops-mode-map
+;;         "C-c , -" #'xenops-decrease-size
+;;         "C-c , =" #'xenops-increase-size
+;;         "C-c , _" #'xenops-decrease-size
+;;         "C-c , +" #'xenops-increase-size)
+;;   (setq! xenops-reveal-on-entry t))
