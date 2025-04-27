@@ -114,6 +114,8 @@ in {
         nix-index
         nodejs_22
         okular
+        proton-pass
+        protonvpn-gui
         ripgrep
         rustup
         signal-desktop
@@ -126,8 +128,6 @@ in {
 
 
     inherit (pkgs-unstable)
-        proton-pass
-        protonvpn-gui
         zig
         zls;
 }
