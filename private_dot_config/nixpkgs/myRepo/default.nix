@@ -100,7 +100,7 @@ in {
         cmake
         dejavu_fonts
         dotool
-        emacs29
+        emacs
         entr
         evince
         fd
@@ -126,6 +126,8 @@ in {
 
 
     inherit (pkgs-unstable)
+        proton-pass
+        protonvpn-gui
         zig
         zls;
 }
