@@ -92,8 +92,9 @@ in {
       myNeovim
       myTexlive;
 
-    inherit (pkgs.jetbrains) 
-      clion;
+    inherit (pkgs.jetbrains) clion;
+
+    inherit (pkgs.kdePackages) okular;
 
     inherit (pkgs)
         ccls
@@ -114,7 +115,6 @@ in {
         ninja
         nix-index
         nodejs_22
-        okular
         proton-pass
         protonvpn-gui
         ripgrep
