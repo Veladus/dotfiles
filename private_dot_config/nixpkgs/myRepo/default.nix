@@ -75,6 +75,7 @@ let
     myTexlive = pkgs.texlive.combined.scheme-full;
 
     myIpe = pkgs.qt6Packages.callPackage ./ipe.nix {
+      lua5 = pkgs.lua5_4_compat;
       texliveSmall = myTexlive;
     };
 
