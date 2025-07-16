@@ -125,7 +125,8 @@ in {
         tealdeer
         thunderbird
         tree
-        wl-clipboard;
+        wl-clipboard
+        zotero;
 
 
     inherit (pkgs-unstable)
