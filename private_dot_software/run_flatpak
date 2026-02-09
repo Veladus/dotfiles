@@ -56,8 +56,9 @@ init
 flatpak_install com.nextcloud.desktopclient.nextcloud
 flatpak_install org.gimp.GIMP
 flatpak_install org.onlyoffice.desktopeditors
-#flatpak_install org.otfried.Ipe
 flatpak_install org.telegram.desktop
 flatpak_install us.zoom.Zoom
+flatpak_install com.protonvpn.www
+flatpak_install com.spotify.Client
 
 finalize

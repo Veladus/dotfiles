@@ -13,7 +13,7 @@ let
   '';
 
   myNeovim = pkgs.callPackage ./neovim {
-    libclang = pkgs.llvmPackages_12.libclang;
+    libclang = pkgs.libclang;
   };
 
   bapc-tools = pkgs.callPackage ./bapc.nix { };
@@ -74,10 +74,10 @@ let
   #    });
   myTexlive = pkgs.texlive.combined.scheme-full;
 
-#  myIpe = pkgs.qt6Packages.callPackage ./ipe.nix {
-#    lua5 = pkgs.lua5_4_compat;
-#    texliveSmall = myTexlive;
-#  };
+  myIpe = pkgs.qt6Packages.callPackage ./ipe.nix {
+    lua5 = pkgs.lua5_4_compat;
+    texliveSmall = myTexlive;
+  };
 
   myGurobi = pkgs.callPackage ./gurobi.nix { };
 
@@ -108,7 +108,7 @@ in
 
   inherit
     bapc-tools
-    # myIpe
+    myIpe
     myNeovim
     myTexlive
     myVsCode
@@ -131,18 +131,16 @@ in
     gdb
     graphviz
     htop
-    kdotool
     keepassxc
     ninja
     nix-index
     nixfmt-rfc-style
     nodejs_22
     proton-pass
-    protonvpn-gui
+    # protonvpn-gui
     ripgrep
     rustup
     signal-desktop
-    slack
     sshpass
     tealdeer
     thunderbird
