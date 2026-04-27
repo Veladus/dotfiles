@@ -365,6 +365,7 @@
   (TeX-auto-save t)
   (TeX-parse-self t)
   (TeX-master nil)
+  (LaTeX-electric-left-right-brace t)
   ;; Enable synctex correlation. From Okular just press
   ;; Shift + Left click to go to the good line.
   (TeX-source-correlate-mode t)
