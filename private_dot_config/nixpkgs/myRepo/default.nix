@@ -86,6 +86,7 @@ in
     # protonvpn-gui
     ripgrep
     rustup
+    sage
     signal-desktop
     sshpass
     tealdeer
