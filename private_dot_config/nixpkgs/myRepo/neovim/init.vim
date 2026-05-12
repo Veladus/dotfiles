@@ -2,7 +2,6 @@ autocmd!
 
 " =============== Color scheme ======================
 autocmd BufEnter * colorscheme koehler
-autocmd BufEnter *.tex colorscheme leafroad
 
 " Line numbering "
 set number relativenumber
@@ -27,8 +26,6 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <leader>G :Neogit<cr>
 
 " ================ Pugin Configuration ==============
-" deoplete
-let g:deoplete#enable_at_startup = 1
 
 " vimtex
 let g:tex_flavor = 'latex'
