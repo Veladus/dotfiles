@@ -80,7 +80,7 @@ in
     keepassxc
     ninja
     nix-index
-    nixfmt-rfc-style
+    nixfmt
     nodejs_22
     proton-pass
     # protonvpn-gui
