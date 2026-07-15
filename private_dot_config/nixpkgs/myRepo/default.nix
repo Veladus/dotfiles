@@ -43,6 +43,8 @@ let
         }
       ];
   };
+
+  mySage = (pkgs.sage.override { requireSageTests = false; } );
 in
 {
   setupEnv = (
@@ -56,6 +58,7 @@ in
     bapc-tools
     myIpe
     myNeovim
+    mySage
     myTexlive
     myVsCode
     ;
@@ -86,7 +89,7 @@ in
     # protonvpn-gui
     ripgrep
     rustup
-    sage
+    
     signal-desktop
     sshpass
     tealdeer
