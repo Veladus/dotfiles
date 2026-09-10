@@ -71,7 +71,6 @@ in neovim.override {
         markdown-preview-nvim
         neogit
         tex-conceal
-        ultisnips
         vim-fugitive
         vim-nix
         vim-tmux-navigator
