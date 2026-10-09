@@ -6,10 +6,10 @@
 let
   myProfile = pkgs.writeText "my-profile" ''
     export MANPATH=":"
-    export PATH="$PATH:$HOME/.cargo/bin"
-    export CPATH="$CPATH:$HOME/.nix-profile/include"
-    export LIBRARY_PATH="$LIBRARY_PATH:$HOME/.nix-profile/lib"
-    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/.nix-profile/lib"
+    export PATH="$HOME/.cargo/bin:$PATH"
+    export CPATH="$HOME/.nix-profile/include:$CPATH"
+    export LIBRARY_PATH="$HOME/.nix-profile/lib:$LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$HOME/.nix-profile/lib:$LD_LIBRARY_PATH"
   '';
 
   myNeovim = pkgs.callPackage ./neovim {
@@ -18,7 +18,7 @@ let
 
   bapc-tools = pkgs.callPackage ./bapc.nix { };
 
-  myTexlive = pkgs.texlive.combined.scheme-full;
+  myTexlive = pkgs.texliveFull;
 
   myIpe = pkgs.qt6Packages.callPackage ./ipe.nix {
     lua5 = pkgs.lua5_4_compat;
@@ -63,6 +63,8 @@ in
     myVsCode
     ;
 
+  inherit (pkgs.llvmPackages) libstdcxxClang;
+
   inherit (pkgs.jetbrains) clion;
 
   inherit (pkgs)
@@ -76,7 +78,6 @@ in
     entr
     evince
     fd
-    gcc14
     gdb
     graphviz
     htop
@@ -89,7 +90,6 @@ in
     # protonvpn-gui
     ripgrep
     rustup
-    
     signal-desktop
     sshpass
     tealdeer
