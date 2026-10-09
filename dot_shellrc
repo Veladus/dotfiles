@@ -4,8 +4,8 @@ function setup_environment () {
 	# Configure environment variables
 	export EDITOR="nvim"
 	export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
-	export GUROBI_HOME=/opt/gurobi1001/linux64/
-	export PATH=$HOME/.local/bin:${GUROBI_HOME}bin:$PATH
+	export GUROBI_HOME=/opt/gurobi1001/linux64
+	export PATH=$HOME/.local/bin:${GUROBI_HOME}/bin:$PATH
 	export LD_LIBRARY_PATH=$GUROBI_HOME/lib:$LD_LIBRARY_PATH
 
 	# fix QT apps
