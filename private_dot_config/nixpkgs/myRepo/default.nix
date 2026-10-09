@@ -1,6 +1,6 @@
 {
   pkgs ? import <nixpkgs> { },
-  pkgs-unstable ? import <nixpkgs-unstable> { },
+  # pkgs-unstable ? import <nixpkgs-unstable> { },
 }:
 
 let
@@ -99,8 +99,8 @@ in
     zotero
     ;
 
-  inherit (pkgs-unstable)
-    zig
-    zls
-    ;
+  #  inherit (pkgs-unstable)
+  #    zig
+  #    zls
+  #    ;
 }
