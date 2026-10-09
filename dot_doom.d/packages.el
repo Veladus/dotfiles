@@ -56,4 +56,5 @@
 (package! org-fragtop :recipe (:host github :repo "io12/org-fragtog"))
 (package! org-noter)
 (package! emacs-everywhere :recipe (:host github :repo "msin32/emacs-everywhere-kwin-wayland" :branch "dotool-support"))
+(package! lean4-mode :recipe (:host github :repo "leanprover-community/lean4-mode" :files ("*.el" "data")))
 ;; (package! xenops)

@@ -11,7 +11,7 @@
   (setenv
    "SSH_AUTH_SOCK"
    (string-chop-newline
-     (shell-command-to-string "gpgconf --list-dirs | grep \"agent-ssh-socket\" | cut -d: -f2"))))
+    (shell-command-to-string "gpgconf --list-dirs | grep \"agent-ssh-socket\" | cut -d: -f2"))))
 
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
@@ -114,24 +114,24 @@
 
   ;; now we break lines at dots honoring org-lists
   (save-excursion
-   (let* ((org-indentation
-           (if org-list-full-item-re
-               (progn
-                 (beginning-of-line)
-                 (if (re-search-forward org-list-full-item-re (line-end-position) t)
-                     (current-column)))))
-          (indentation (or org-indentation (current-indentation))))
-     (while (re-search-forward "[?!\.] " (line-end-position) t)
-       (backward-char 1)
-       (delete-char 1)
-       (newline)
-       (indent-to (or indentation 0))))
+    (let* ((org-indentation
+            (if org-list-full-item-re
+                (progn
+                  (beginning-of-line)
+                  (if (re-search-forward org-list-full-item-re (line-end-position) t)
+                      (current-column)))))
+           (indentation (or org-indentation (current-indentation))))
+      (while (re-search-forward "[?!\.] " (line-end-position) t)
+        (backward-char 1)
+        (delete-char 1)
+        (newline)
+        (indent-to (or indentation 0))))
 
-  ;; finally we reenable all fragments if fragtog mode is on
-   (if org-fragtog-mode
-       (save-excursion
-         (mark-paragraph)
-         (org-latex-preview)))))
+    ;; finally we reenable all fragments if fragtog mode is on
+    (if org-fragtog-mode
+        (save-excursion
+          (mark-paragraph)
+          (org-latex-preview)))))
 
 (map!
  "M-Q" #'reflow-paragraph)
@@ -314,7 +314,7 @@
   ;; Define new keybinding
   (map!
    :map yas-minor-mode-map
-   :i "M-w" #'yas-expand))
+   :i "M-o" #'yas-expand))
 
 ;; latex
 (use-package! latex
@@ -375,6 +375,8 @@
   ;; adapt preview
   (preview-auto-reveal t)
   (preview-scale-function '(lambda () (* 1.5 (expt text-scale-mode-step text-scale-mode-amount) (funcall (preview-scale-from-face)))))
+  ;; Do not unprettify at point
+  (prettify-symbols-unprettify-at-point nil)
   :config
   ;; always prettify symbols
   (add-hook! (latex-mode LaTeX-mode) #'prettify-symbols-mode)
@@ -396,19 +398,45 @@
 
   ;; Set Okular as the default PDF viewer.
   (eval-after-load "tex"
-    '(setcar (cdr (assoc 'output-pdf TeX-view-program-selection)) "Okular")))
+    '(setcar (cdr (assoc 'output-pdf TeX-view-program-selection)) "Okular"))
+  
+  ;; Delete whole prettified symbols
+  ;; an advice around delete-backward-char
+  (defun delete-backward-pretty-symbol-advice (orig-func n &optional killflag)
+    "Remove \"pretty-symbol\" if it's prior to caret, otherwise call `delete-backward-char'"
+    (if-let*
+        ((prev-point (when (> (point) (point-min))
+                       (- (point) 1)))
+         (pretty-start (get-text-property prev-point 'prettify-symbols-start))
+         (pretty-past-end (get-text-property prev-point 'prettify-symbols-end)))
+        (delete-region pretty-start pretty-past-end)
+      (funcall orig-func n killflag)))
+  (advice-add 'delete-backward-char :around #'delete-backward-pretty-symbol-advice)
+
+  ;; an advice around evil-delete-char for evil-mode
+  (defun evil-delete-char-symbol-advice (orig-func beg past-end &optional type register)
+    "Include \"pretty-symbol\"s into region calculation for `evil-delete-char'"
+    (let ((new-start
+           ;; return `beg' if property is `nil'
+           (or (get-text-property beg 'prettify-symbols-start) beg))
+          (new-past-end
+           (max past-end
+                ;; return `0' if property is `nil'
+                (or (get-text-property (- past-end 1) 'prettify-symbols-end) 0))))
+      (funcall orig-func new-start new-past-end type register)))
+  (advice-add 'evil-delete-char :around #'evil-delete-char-symbol-advice))
 
 (use-package! reftex
   :custom
   (reftex-ref-style-default-list '("Cleveref" "Plain" "Default") "Use Cleveref as default")
   :config
   (add-to-list
-         'reftex-ref-style-alist
-         '("Cleveref" "cleveref"
-           (("\\cref" ?c) ("\\Cref" ?C) ("\\cpageref" ?d) ("\\Cpageref" ?D))))
+   'reftex-ref-style-alist
+   '("Cleveref" "cleveref"
+     (("\\cref" ?c) ("\\Cref" ?C) ("\\cpageref" ?d) ("\\Cpageref" ?D))))
   (add-to-list
-         'reftex-ref-style-alist
-         '("Plain" t (("" ? ))))
+   'reftex-ref-style-alist
+   '("Plain" t (("" ? ))))
   (map! :map reftex-mode-map
         "C-c (" #'reftex-reference
         "C-c )" #'reftex-label)
@@ -424,11 +452,57 @@
   :custom
   (cdlatex-math-symbol-alist
    '((?{ "\\subseteq" "\\subset")
-     (?} "\\supseteq" "\\supset")))
+     (?} "\\supseteq" "\\supset")
+     (?e "\\varepsilon" "\\epsilon")
+     (?* "\\star" "\\times")))
   (cdlatex-math-modify-alist
    '((?F "\\mathfrak" nil t nil nil)
      (?O "\\overline" nil t nil nil)
-     (?s "\\mathscr" nil t nil nil))))
+     (?s "\\mathscr" nil t nil nil)
+     (?h "\\hat" nil t nil nil))))
+
+(use-package! lean4-mode
+  :init
+  (setq lsp-inlay-hint-enable nil)
+  :config
+  ;; Suppress lsp mode warnings
+  (after! lsp-mode (add-to-list 'warning-suppress-types '(lsp-mode)))
+  ;; Disable one line messages
+  (after! lsp-ui (setq lsp-ui-sideline-enable nil))
+  ;; Initially hide Messages above and below
+  (advice-add 'lean4-info--mk-message-section :override
+              (lambda (value caption messages buffer)
+                (when-let (msgs messages)
+                  (magit-insert-section (magit-section value (seq-contains-p '(errors-below errors-above) value))
+                    (magit-insert-heading caption)
+                    (magit-insert-section-body
+                      (dolist (e msgs)
+                        (-let (((&Diagnostic :message :range (&Range :start (&Position :line :character))) e))
+                          (let ((ln (1+ (lsp-translate-line line)))
+                                (col (lsp-translate-column character)))
+                            (insert-text-button (format "%d:%d:" ln col)
+                                                'action #'lean4-info--error-button-action
+                                                'button-data (list buffer ln col)
+                                                'face 'magit-section-heading
+                                                'help-echo "mouse-2: visit this file, line and column"))
+                          (lean4-info--insert-highlight-inaccessible-names "\n" message "\n"))))))))
+  ;; lean formatter
+  ;; (with-eval-after-load 'lsp-mode       
+  ;;   (lsp-register-client
+  ;;    (make-lsp-client
+  ;;     :new-connection (lsp-stdio-connection
+  ;;                      (lambda () (list "/home/niko/Documents/Promotion/HS26/FAA2026/.lake/packages/lean-fmt/.lake/build/bin/lean-fmt" "lsp")))
+  ;;     :activation-fn (lsp-activate-on "lean")
+  ;;     :server-id 'lean-fmt
+  ;;     :priority 0
+  ;;     :add-on? t
+  ;;     :initialization-options (lambda () (list :debounceMs 150)))))
+  
+
+
+
+  (map! :map lean4-mode-map
+        "RET" #'newline-and-indent))
 
 ;; (use-package! xenops
 ;;   :hook ((latex-mode LaTeX-mode) . xenops-mode)
