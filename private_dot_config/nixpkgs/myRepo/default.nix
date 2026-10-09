@@ -38,13 +38,13 @@ let
         {
           name = "lean4";
           publisher = "leanprover";
-          version = "0.0.211";
-          sha256 = "BoziDTMxM2ffel/3/lD9zf0M7//li1XRcuAUgnbS2o4=";
+          version = "0.0.239";
+          sha256 = "6XqjmClUzmyz1nkp/bLv5+F9cj7ZCp4+uAGIJgLDi+o=";
         }
       ];
   };
 
-  mySage = (pkgs.sage.override { requireSageTests = false; } );
+  mySage = (pkgs.sage.override { requireSageTests = false; });
 in
 {
   setupEnv = (
