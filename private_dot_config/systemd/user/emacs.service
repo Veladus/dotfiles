@@ -4,10 +4,10 @@ Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
 After=graphical-session.target
 
 [Service]
-Type=forking
-ExecStart=/bin/bash -c ". /etc/bash.bashrc;. $HOME/.shellrc; /home/niko/.nix-profile/bin/emacs --daemon"
+Type=notify
+ExecStart=/bin/bash -c ". /etc/bash.bashrc; . $HOME/.shellrc; exec /home/niko/.nix-profile/bin/emacs --fg-daemon"
 ExecStop=/home/niko/.nix-profile/bin/emacsclient --eval "(kill-emacs)"
 Restart=on-failure
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target
