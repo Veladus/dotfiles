@@ -38,6 +38,8 @@ let
       [
         asvetliakov.vscode-neovim
         tamasfe.even-better-toml
+        ms-vscode-remote.remote-containers
+        ms-azuretools.vscode-containers
       ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
@@ -78,6 +80,7 @@ in
     chezmoi
     cmake
     dejavu_fonts
+    devcontainer
     dotool
     elan
     emacs
@@ -87,13 +90,13 @@ in
     gdb
     graphviz
     htop
+    ipe
     keepassxc
     ninja
     nix-index
     nixfmt
     nodejs_22
     proton-pass
-    # protonvpn-gui
     ripgrep
     rustup
     signal-desktop
@@ -102,7 +105,7 @@ in
     thunderbird
     tree
     wl-clipboard
-    zotero
+    # zotero
     ;
 
   #  inherit (pkgs-unstable)

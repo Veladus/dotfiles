@@ -31,7 +31,7 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "otfried";
     repo = "ipe";
-    rev = "c8dd95f4913a46b479999a9a84e8999ae7fd65e2";
+    rev = "cd6be50c84d584421f85a1a0fa553065312cdb54";
     hash = "sha256-Q5VZvObrdFeBcotspRMnyPSnTTIKnL6hJhj70Pfw7YY=";
   };
 
@@ -41,39 +41,37 @@ stdenv.mkDerivation rec {
     wrapQtAppsHook
   ];
 
-  buildInputs =
-    [
-      cairo
-      freetype
-      ghostscript
-      gsl
-      libjpeg
-      libpng
-      libspiro
-      lua5
-      qtbase
-      qtsvg
-      zlib
-    ]
-    ++ (lib.optionals withTeXLive [
-      texliveSmall
-    ])
-    ++ (lib.optionals withQVoronoi [
-      qhull
-    ]);
+  buildInputs = [
+    cairo
+    freetype
+    ghostscript
+    gsl
+    libjpeg
+    libpng
+    libspiro
+    lua5
+    qtbase
+    qtsvg
+    zlib
+  ]
+  ++ (lib.optionals withTeXLive [
+    texliveSmall
+  ])
+  ++ (lib.optionals withQVoronoi [
+    qhull
+  ]);
 
-  makeFlags =
-    [
-      "-C src"
-      "IPEPREFIX=${placeholder "out"}"
-      "LUA_PACKAGE=lua"
-      "MOC=${buildPackages.qt6Packages.qtbase}/libexec/moc"
-      "IPE_NO_SPELLCHECK=1" # qtSpell is not yet packaged
-    ]
-    ++ (lib.optionals withQVoronoi [
-      "IPEQVORONOI=1"
-      "QHULL_CFLAGS=-I${qhull}/include/libqhull_r"
-    ]);
+  makeFlags = [
+    "-C src"
+    "IPEPREFIX=${placeholder "out"}"
+    "LUA_PACKAGE=lua"
+    "MOC=${buildPackages.qt6Packages.qtbase}/libexec/moc"
+    "IPE_NO_SPELLCHECK=1" # qtSpell is not yet packaged
+  ]
+  ++ (lib.optionals withQVoronoi [
+    "IPEQVORONOI=1"
+    "QHULL_CFLAGS=-I${qhull}/include/libqhull_r"
+  ]);
 
   qtWrapperArgs = lib.optionals withTeXLive [ "--prefix PATH : ${lib.makeBinPath [ texliveSmall ]}" ];
 
