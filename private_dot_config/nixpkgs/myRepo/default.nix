@@ -20,6 +20,11 @@ let
 
   myTexlive = pkgs.texliveFull;
 
+  myCodexDesktop = pkgs.callPackage ./codex-desktop.nix {
+    sandboxConfig = import ./codex-desktop-sandbox-config.nix { inherit pkgs myTexlive; };
+    rpmFile = ./chatgpt.x86_64.rpm;
+  };
+
   myIpe = pkgs.qt6Packages.callPackage ./ipe.nix {
     lua5 = pkgs.lua5_4_compat;
     texliveSmall = myTexlive;
@@ -56,7 +61,8 @@ in
 
   inherit
     bapc-tools
-    myIpe
+    # myIpe
+    myCodexDesktop
     myNeovim
     mySage
     myTexlive
