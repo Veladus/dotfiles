@@ -121,7 +121,7 @@
                   (if (re-search-forward org-list-full-item-re (line-end-position) t)
                       (current-column)))))
            (indentation (or org-indentation (current-indentation))))
-      (while (re-search-forward "[?!\.] " (line-end-position) t)
+      (while (re-search-forward "[?!.]\\(?:}\\|\\\\)\\|\\\\]\\)? " (line-end-position) t)
         (backward-char 1)
         (delete-char 1)
         (newline)
