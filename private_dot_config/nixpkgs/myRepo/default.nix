@@ -1,6 +1,6 @@
 {
   pkgs ? import <nixpkgs> { },
-  # pkgs-unstable ? import <nixpkgs-unstable> { },
+  pkgs-unstable ? import <nixpkgs-unstable> { },
 }:
 
 let
@@ -101,15 +101,16 @@ in
     rustup
     signal-desktop
     sshpass
+    subversionClient
     tealdeer
     thunderbird
     tree
     wl-clipboard
-    # zotero
     ;
 
-  #  inherit (pkgs-unstable)
-  #    zig
-  #    zls
-  #    ;
+  inherit (pkgs-unstable)
+    #    zig
+    #    zls
+    #    zotero
+    ;
 }
